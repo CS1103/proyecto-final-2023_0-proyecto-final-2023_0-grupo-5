@@ -1,131 +1,88 @@
-       find_program(LSB_RELEASE_EXEC lsb_release)
-       execute_process(
-               COMMAND ${LSB_RELEASE_EXEC} -is
-               OUTPUT_VARIABLE LSB_RELEASE_ID_SHORT
-               OUTPUT_STRIP_TRAILING_WHITESPACE
-       ) # Get linux distro
+cmake_minimum_required(VERSION 3.11) # FetchContent is available in 3.11+
+project(examples)
+set(example_dirs
+        audio
+        core
+        models
+        others
+        shaders
+        shapes
+        text
+        textures
+        )
+set(CMAKE_REQUIRED_DEFINITIONS -D_POSIX_C_SOURCE=199309L)
+include(CheckSymbolExists)
+check_symbol_exists(CLOCK_MONOTONIC time.h HAVE_CLOCK_MONOTONIC)
+check_symbol_exists(QueryPerformanceCounter windows.h HAVE_QPC)
+set(CMAKE_REQUIRED_DEFINITIONS)
+# Generate compile_commands.json
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+include_directories(BEFORE SYSTEM others/external/include)
+include_directories(textures)
 
-       message(STATUS "Current distro: ${LSB_RELEASE_ID_SHORT}")
+# Dependencies
+set(RAYLIB_VERSION 4.2.0)
+find_package(raylib ${RAYLIB_VERSION} QUIET) # QUIET or REQUIRED
+if (NOT raylib_FOUND) # If there's none, fetch and build raylib
+    include(FetchContent)
+    FetchContent_Declare(
+            raylib
+            URL https://github.com/raysan5/raylib/archive/refs/tags/${RAYLIB_VERSION}.tar.gz
+    )
+    FetchContent_GetProperties(raylib)
+    if (NOT raylib_POPULATED) # Have we downloaded raylib yet?
+        set(FETCHCONTENT_QUIET NO)
+        FetchContent_Populate(raylib)
+        set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE) # don't build the supplied examples
+        add_subdirectory(${raylib_SOURCE_DIR} ${raylib_BINARY_DIR})
+    endif()
+endif()
 
-       cmake_minimum_required(VERSION 3.22)
-       project(Maze VERSION 0.1)
+# Our Project
 
-       set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+add_executable(${PROJECT_NAME} main.cpp src/menu.cpp src/menu.h src/global.cpp src/global.h src/menu2.cpp src/menu2.h src/scenes.cpp src/scenes.h src/Maze.cpp src/Maze.h src/Options.cpp src/Options.h src/App.cpp src/App.h src/maze/maze2.cpp src/maze/maze2.h src/maze/Player.cpp src/maze/Player.h src/maze/Bot.cpp src/maze/Bot.h src/maze/Player2.cpp src/maze/Player2.h)
+#set(raylib_VERBOSE 1)
+target_link_libraries(${PROJECT_NAME} raylib)
 
-       if(${CMAKE_VERSION} VERSION_LESS "3.25.2")
-           message(
-                   STATUS
-                   "CMake version is less than 3.25.2,
-                                                                                                                                                                          upgrade to silence unnecesary warnings"
-           )
-       endif()
+set(example_sources)
+set(example_resources)
+foreach (example_dir ${example_dirs})
+    # Get the .c files
+    file(GLOB sources ${example_dir}/*.c)
+    list(APPEND example_sources ${sources})
 
-       # raylib
-       message(STATUS "Searching for raylib")
-       if(NOT LSB_RELEASE_ID_SHORT STREQUAL "Ubuntu")
-           # Kevin fix
-           find_package(raylib QUIET)
-       endif()
-       if(NOT raylib_FOUND)
-           message(STATUS "raylib not found, downloading...")
-           include(FetchContent)
-           if(${CMAKE_VERSION} VERSION_LESS "3.25.2")
-               fetchcontent_declare(
-                       raylib
-                       GIT_REPOSITORY https://github.com/raysan5/raylib.git
-                       GIT_TAG 4.2.0
-               )
-           else()
-               fetchcontent_declare(
-                       raylib
-                       GIT_REPOSITORY https://github.com/raysan5/raylib.git
-                       GIT_TAG 4.2.0
-                       SYSTEM
-               )
-           endif()
-           fetchcontent_makeavailable(raylib)
-       endif()
+    # Any any resources
+    file(GLOB textures/resources ${example_dir}/resources/*)
+    list(APPEND example_resources ${resources})
+endforeach ()
+foreach (example_source ${example_sources})
+    # Create the basename for the example
+    get_filename_component(example_name ${example_source} NAME)
+    string(REPLACE ".c" "" example_name ${example_name})
 
-       # raylib-cpp is not installed as cmake package with aur
-       if(NOT LSB_RELEASE_ID_SHORT STREQUAL "Arch")
-           message(STATUS "Searching for raylib_cpp")
-           # raylib_cpp
-           find_package(raylib_cpp QUIET)
-           if(NOT raylib_cpp_FOUND)
-               message(STATUS "raylib_cpp not found, downloading...")
-               include(FetchContent)
-               if(${CMAKE_VERSION} VERSION_LESS "3.25.2")
-                   fetchcontent_declare(
-                           raylib_cpp
-                           GIT_REPOSITORY https://github.com/Enriquefft/raylib-cpp.git
-                   )
-               else()
-                   fetchcontent_declare(
-                           raylib_cpp
-                           GIT_REPOSITORY https://github.com/Enriquefft/raylib-cpp.git
-                           SYSTEM
-                   )
-               endif()
-               fetchcontent_makeavailable(raylib_cpp)
-           endif()
-       endif()
+    # Setup the example
+    add_executable(${example_name} ${example_source})
 
-       ############### MAIN ###############
+    target_link_libraries(${example_name} raylib)
 
-       # This is the main part:
+    string(REGEX MATCH ".*/.*/" resources_dir ${example_source})
+    string(APPEND resources_dir "textures/resources")
 
-       # set(MODULES "System" "Board" "Utils")
-       set(MODULES "All")
+    if (${PLATFORM} MATCHES "Web" AND EXISTS ${resources_dir})
+        # The local resources path needs to be mapped to /resources virtual path
+        string(APPEND resources_dir "@resources")
+        set_target_properties(${example_name} PROPERTIES LINK_FLAGS "--preload-file ${resources_dir}")
+    endif ()
+endforeach ()
+# Web Configurations
+if (${PLATFORM} STREQUAL "Web")
+    # Tell Emscripten to build an example.html file.
+    set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".html")
+endif()
 
-       set(INCLUDE_DIRS "")
-       set(SOURCES "")
-
-       # Recursive source and include
-       # Only if Sources is empty
-       if(MODULES STREQUAL "All")
-           message(STATUS "Recursively searching for all source files")
-           # file(GLOB_RECURSE INCLUDE_DIRS "src/*")
-           # Test pending
-           file(GLOB_RECURSE SOURCES "src/*.cpp")
-       elseif(SOURCES STREQUAL "")
-           message(STATUS "Recursively searching for modules: ${MODULES}")
-           foreach(MODULE ${MODULES})
-               # file(GLOB_RECURSE INCLUDE_DIRS "${INCLUDE_DIRS}" "src/${MODULE}/*.h*")
-               file(GLOB_RECURSE SOURCES "${SOURCES}" "src/${MODULE}/*.cpp")
-           endforeach()
-       endif()
-
-       # append src/main to SOURCES
-       list(APPEND SOURCES src/main.cpp)
-
-       # target_include_directories(${PROJECT_NAME}  ${INCLUDE_DIRS})
-       add_executable(${PROJECT_NAME} ${SOURCES})
-
-       ####################################
-
-       if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-           set(WARNINGS
-                   -Weverything
-                   -Wno-string-compare
-                   -Wno-c++98-compat
-                   -Wno-c++98-compat-pedantic
-                   -fsanitize=address
-                   -fsanitize=undefined
-                   -fno-sanitize-recover=all
-                   )
-           target_link_options(
-                   ${PROJECT_NAME}
-                   PRIVATE -fsanitize=address -fsanitize=undefined
-           )
-       else()
-           set(WARNINGS -Wall -Wextra -Wshadow -pedantic)
-       endif()
-
-       target_compile_options(${PROJECT_NAME} PRIVATE ${WARNINGS} -g)
-
-       set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 20)
-       if(LSB_RELEASE_ID_SHORT STREQUAL "Arch")
-           target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
-       else()
-           target_link_libraries(${PROJECT_NAME} PRIVATE raylib raylib_cpp)
-       endif()
+# Checks if OSX and links appropriate frameworks (Only required on MacOS)
+if (APPLE)
+    target_link_libraries(${PROJECT_NAME} "-framework IOKit")
+    target_link_libraries(${PROJECT_NAME} "-framework Cocoa")
+    target_link_libraries(${PROJECT_NAME} "-framework OpenGL")
+endif()
