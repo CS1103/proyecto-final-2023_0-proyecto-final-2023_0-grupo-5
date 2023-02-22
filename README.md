@@ -191,7 +191,7 @@ El juego MAZERS genera un laberinto de tamaño (n x m), y a partir de aquí se p
 
 ## Licencia
 
-Distribuido bajo la licencia GNU. Ver [`LICENSE`](LICENSE) para más información.
+Distribuido bajo la licencia GNU. Ver [`LICENCE`](LICENCE) para más información.
 
 ## Diagramas
 
@@ -209,3 +209,5 @@ Distribuido bajo la licencia GNU. Ver [`LICENSE`](LICENSE) para más informació
 - Nombre genérico 4
 - Nombre genérico 5
 - Fabrizzio Nicolay Vilchez Espinoza
+
+## Referencias y links
