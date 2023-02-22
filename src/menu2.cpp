@@ -24,7 +24,7 @@ void updateMenu(Menu *const menu) {
 
     if (IsKeyPressed(KEY_ENTER)) {
         if (menu->option == OPT_START) {
-            onOptionEvent = OPT_START;
+            onOptionEvent = OPT_START;      // ACTUALIZA EL EVENTO QUE SE ABRE
         }
         else if (menu->option == OPT_OPTIONS) {
             onOptionEvent = OPT_OPTIONS;
@@ -49,7 +49,7 @@ void freeMenu(Menu **menu) {
 }
 
 OptionEvent finishMenu(void) {
-    return onOptionEvent;
+    return onOptionEvent;   // RETORNA EL EVENTO
 }
 
 static void drawMenuOptions(const Menu *const menu) {

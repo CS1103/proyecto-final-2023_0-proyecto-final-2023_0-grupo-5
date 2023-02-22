@@ -60,6 +60,7 @@ bool finishSceneHanlder(void) {
 
 
 // implementation static functions.
+/// ACTUALIZO LA ESCENA
 static void loadScene(SceneHandler *handler, ScenesTypes type) {
     unloadScene(handler);
     handler->type = type;
@@ -102,15 +103,16 @@ static void unloadScene(SceneHandler *handler) {
 }
 
 static void updateScene(SceneHandler *handler) {
-    const OptionEvent event = finishMenu();
+    const OptionEvent event = finishMenu();     /// event -> onOptionEvent (menu.cpp)
+
     switch (handler->type) {
         case SCENE_MENU:
-            updateMenu((Menu *)handler->scene);
+            updateMenu((Menu *)handler->scene);     //aqui se actualiza el event
             if (event!= OPT_EMPTY) {
                 if (event == OPT_START) {
-                    loadScene(handler, SCENE_BOARD);
+                    loadScene(handler, SCENE_BOARD);     // type -> scene_board
                 } else if (event == OPT_OPTIONS) {
-                    loadScene(handler, SCENE_OPTIONS);
+                    loadScene(handler, SCENE_OPTIONS);   // type -> scene_options
                 } else if (event == OPT_EXIT) {
                     finished = true;
                 }

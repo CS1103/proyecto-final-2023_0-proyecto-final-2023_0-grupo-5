@@ -21,39 +21,18 @@ static bool showCounter = true;
 static void resetValues(void);
 
 static int turno = 0;
-Player* Alfa = new Player(1,1,GREEN);
+Player* zeta = new Player(1,1,GREEN);
 Player* Beta = new Player(MAZE_HEIGHT-1,MAZE_WIDTH-1,PURPLE);
 
 
-Maze2* initBoard(void) {
+Maze2* initBoard() {
     cout << "INICIALIZO MAZE" << endl;
     std::cout << "gola";
     resetValues();
-    Maze2* maze = new Maze2;
-    Maze2 a;
-    maze->tam = new int[MAZE_WIDTH*MAZE_HEIGHT];
-    a.tam = new int[MAZE_WIDTH*MAZE_HEIGHT];
-    a.Visited_Coordinates.push({1,1});
-    for (int x = 0; x < MAZE_HEIGHT; ++x) {
-        for (int y = 0; y < MAZE_WIDTH; ++y) {
-            a(x,y) = 0;
-        }
-    }
-    backtraking(a);
-
-    *maze = a;
+    Maze2* maze = Maze2::getInstance(MAP_HEIGHT,MAZE_WIDTH);
+    backtraking(*maze);
     maze->IA = initBot(1,1);
-    //    for (int x = 0; x < MAZE_HEIGHT; ++x) {
-    //        for (int y = 0; y < MAZE_WIDTH; ++y) {
-    //            std::cout << setw(3)<<(*maze)(x,y) ;
-    //        }
-    //        cout << endl;
-    //    }
-    //    cout << endl;
-
-
     (*maze)(MAZE_HEIGHT/2, MAZE_WIDTH/2) = 1;
-
     cout << endl;
     return maze;
 }
@@ -101,17 +80,17 @@ void drawMaze2(Maze2 *const maze) {
                 }
             }
         }
-        pthread_key_t z;
-        z = GetKeyPressed();
-        pair<int,int> coords_ac {Alfa->getY(),Alfa->getX()};
-        if (Alfa->tecla_val(z) and Alfa->no_salga() and Alfa->sig_cuadro(*maze) and Alfa->col_play(*Beta))
-        {
-            Alfa->avanz_play(z);
-            Alfa->DrawPlayer();
-            Alfa->movement(*Beta, *maze, coords_ac, turno);
-            Alfa->DrawPlayer();
-        }
-        Alfa->DrawPlayer();
+//        pthread_key_t z;
+//        z = GetKeyPressed();
+//        pair<int,int> coords_ac {Alfa->getY(),Alfa->getX()};
+//        if (Alfa->tecla_val(z) and Alfa->no_salga() and Alfa->sig_cuadro(*maze) and Alfa->col_play(*Beta))
+//        {
+//            Alfa->avanz_play(z);
+//            Alfa->DrawPlayer();
+//            Alfa->movement(*Beta, *maze, coords_ac, turno);
+//            Alfa->DrawPlayer();
+//        }
+//        Alfa->DrawPlayer();
     }
 
 }
@@ -172,7 +151,7 @@ void backtraking(Maze2& Alfa) {
 }
 void updateMaze2(Maze2 *const maze){
 
-    if (IsKeyPressed(KEY_ESCAPE) || Alfa->verf_gan(*maze)) {
+    if (IsKeyPressed(KEY_ESCAPE)) {
         finished = true;
     }
 }
@@ -182,26 +161,23 @@ bool finishMaze(void) {
 }
 void freeMaze(Maze2 **maze){
     if (*maze != NULL) {
-        free(*maze);
-        free(Alfa);
-        *maze = NULL;
     }
 }
 
-Maze2::Maze2(const Maze2& other){
-    int size = MAZE_WIDTH*MAZE_HEIGHT;
-    tam =new int[MAZE_WIDTH*MAZE_HEIGHT];
-    copy(other.tam,other.tam + size, tam);
-}
-
-Maze2 &Maze2::operator=(const Maze2 &other) {
-    if (this == &other){return *this;}
-    int size = MAZE_WIDTH*MAZE_HEIGHT;
-    delete[] tam;
-    tam = new int[size];
-    copy(other.tam,other.tam + size, tam);
-    return *this;
-}
+//Maze2::Maze2(const Maze2& other){
+//    int size = MAZE_WIDTH*MAZE_HEIGHT;
+//    tam =new int[MAZE_WIDTH*MAZE_HEIGHT];
+//    copy(other.tam,other.tam + size, tam);
+//}
+//
+//Maze2 &Maze2::operator=(const Maze2 &other) {
+//    if (this == &other){return *this;}
+//    int size = MAZE_WIDTH*MAZE_HEIGHT;
+//    delete[] tam;
+//    tam = new int[size];
+//    copy(other.tam,other.tam + size, tam);
+//    return *this;
+//}
 static void drawCounterScreen(void) {
     DrawRectangle(
             0,
@@ -254,7 +230,6 @@ static void BFS(Maze2& maze){
         Pi cur_coord = maze.IA->Frontier.front();//Current Coordinates
 
         maze.IA->Frontier.pop();// Eliminate the first element on qeue that is a visited neighbor
-        cout<<endl;
         for (auto Adder: Cardinals) {
 
             Pi Next = {cur_coord.first + Adder.first,
@@ -268,4 +243,29 @@ static void BFS(Maze2& maze){
             }
         }
     }
+}
+Maze2* Maze2::getInstance(int H,int W){
+    if (_inst == nullptr){
+        cout << "creando" << endl;
+        _inst = new Maze2(H,W);
+        for (int x = 0; x < H; ++x) {
+            for (int y = 0; y < W; ++y) {
+                (*_inst)(x,y) = 0;
+            }
+        }
+        _inst->Visited_Coordinates.push({1,1});
+        cout << _inst->Visited_Coordinates.size() << endl;
+    }
+    else{
+        cout << "RESET" << endl;
+        for (int x = 0; x < H; ++x) {
+            for (int y = 0; y < W; ++y) {
+                (*_inst)(x,y) = 0;
+            }
+        }
+        cout << _inst->Visited_Coordinates.size() << endl;
+        _inst->Visited_Coordinates.push({1,1});
+    }
+    return _inst;
+
 }

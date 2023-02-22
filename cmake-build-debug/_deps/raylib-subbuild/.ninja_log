@@ -1,0 +1,21 @@
+# ninja log v5
+0	80	6987726867994094	raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-mkdir	4a4c67885d99b1d6
+0	80	6987726867994094	C:/Users/Jesus/Desktop/PROGRAMACION III/proyecto/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-mkdir	4a4c67885d99b1d6
+80	5503	6987726922204891	raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-download	c410ddd961769e14
+80	5503	6987726922204891	C:/Users/Jesus/Desktop/PROGRAMACION III/proyecto/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-download	c410ddd961769e14
+5503	5553	6987726922727182	raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-update	9b586fa234e4f754
+5503	5553	6987726922727182	C:/Users/Jesus/Desktop/PROGRAMACION III/proyecto/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-update	9b586fa234e4f754
+5553	5604	6987726923218019	raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-patch	1c9926402bec5107
+5553	5604	6987726923218019	C:/Users/Jesus/Desktop/PROGRAMACION III/proyecto/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-patch	1c9926402bec5107
+5604	5652	6987726923707031	raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-configure	e3ccd0632bc00166
+5604	5652	6987726923707031	C:/Users/Jesus/Desktop/PROGRAMACION III/proyecto/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-configure	e3ccd0632bc00166
+5652	5707	6987726924259903	raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-build	e2e3b3b1a8e30e16
+5652	5707	6987726924259903	C:/Users/Jesus/Desktop/PROGRAMACION III/proyecto/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-build	e2e3b3b1a8e30e16
+5707	5766	6987726924850726	raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-install	cfa880bf75cd6b3a
+5707	5766	6987726924850726	C:/Users/Jesus/Desktop/PROGRAMACION III/proyecto/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-install	cfa880bf75cd6b3a
+5766	5832	6987726925501737	raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-test	3e7a708266594b6d
+5766	5832	6987726925501737	C:/Users/Jesus/Desktop/PROGRAMACION III/proyecto/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-test	3e7a708266594b6d
+5832	5989	6987726926984593	CMakeFiles/raylib-populate-complete	cb658629eb4dfb41
+5832	5989	6987726926984593	raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-done	cb658629eb4dfb41
+5832	5989	6987726926984593	C:/Users/Jesus/Desktop/PROGRAMACION III/proyecto/cmake-build-debug/_deps/raylib-subbuild/CMakeFiles/raylib-populate-complete	cb658629eb4dfb41
+5832	5989	6987726926984593	C:/Users/Jesus/Desktop/PROGRAMACION III/proyecto/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-done	cb658629eb4dfb41
