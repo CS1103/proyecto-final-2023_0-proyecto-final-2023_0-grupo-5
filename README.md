@@ -44,7 +44,7 @@ de la Universidad de Ingeniería y Tecnología 💙🤍. Esperemos les guste. �
     <li><a href="#diagramas">
       Diagramas
       <ul>
-        <li><a href="#grafo-del-tablero">Grafo del tablero-11x11</a></li>
+        <li><a href="#Grafo de un tablero cualquiera (tamaño m x n)">Grafo del tablero-11x11</a></li>
         <li><a href="#diagrama-de-clases">Diagrama de clases</a></li>
       </ul>
     </a></li>
@@ -150,3 +150,62 @@ entre un jugador de manera local, u contra la misma computadora.
 <div align="center">
 <img src= extra/queue.png format=jpg&name=small" width="500px">
 </div>
+
+## Instalación
+
+### Requisitos
+
+- Shell compatible
+- Compilador gnu++2a o posterior
+- Administrador de paquetes CMake v.3 o posterior
+- Libreria Raylib (Se instala de manera automática al compilar).
+
+### Pasos de instalación
+
+1. Clonación de repositorio usando git en un shell compatible
+
+```bash
+git clone https://github.com/CS1103/proyecto-final-grupo-5-1
+```
+
+2. Compilación del proyecto con el siguiente comando de CMake
+
+```bash
+mkdir build && cd build && cmake .. && make
+```
+
+## Instrucciones de uso
+
+### Instrucciones
+
+### Reglas de juego
+
+El juego MAZERS genera un laberinto de tamaño (n x m), y a partir de aquí se puede hacer lo siguiete:
+
+- Al comienzo de cada partida se genera un laberinto con recuadros llenos o vacios (paredes y espacios para moverse).
+- Cada jugador cuenta con un indicador cuadrado de un color distinto al otro. (Siempre son 2 jugadores)
+- Los movimientos se harán por turnos de manera consecutiva, donde es posible moverse en cualquier dirección siempre y cuando haya un recuadro de espacio disponible como mínimo.
+- El movimiento se hace hasta encontrar una bifurcación (2 o más caminos disponibles). Siempre se avanza todas las casillas disponibles hasta que haya varios caminos, o no haya caminos disponibles y solo se pueda regresar al punto de control de donde se realizó el movimiento.
+- La finalidad del juego es llegar a la meta (el centro de laberinto) antes que el otro jugador.
+- Gana el jugador que llegue primero al centro del laberinto (objetivo).
+
+## Licencia
+
+Distribuido bajo la licencia GNU. Ver [`LICENSE`](LICENSE) para más información.
+
+## Diagramas
+
+### Grafo de un tablero cualquiera (tamaño m x n)
+
+### Diagrama de clases
+
+## Link del video
+
+## Autores
+
+- Nombre genérico 1
+- Nombre genérico 2
+- Nombre genérico 3
+- Nombre genérico 4
+- Nombre genérico 5
+- Fabrizzio Nicolay Vilchez Espinoza
