@@ -203,21 +203,10 @@ Distribuido bajo la licencia GNU. Ver [`LICENCE`](LICENCE) para más informació
 - Se cumple que hay 2 nodos principales que marcan el inicio de ambos jugadores, con un nodo objetivo que esta en el centro.
 - La posibilidad de existencia de bucles es alta, sin embargo, se puede recorrer cualquier nodo en cualquier dirección, siempre y cuando este tenga un "1".
 
-Si quisieramos utilizar una matriz para representar el laberinto, estas serian las relaciónes por casillas en un tablero de  **15 x 9**. Donde T marca el objetivo siempre en el medio.
+Si quisieramos utilizar una matriz para representar el laberinto, estas serian las relaciónes por casillas en un tablero de  **15 x 9**. Donde T marca el objetivo siempre en el medio,
+los "1" son las casillas por donde se puede mover, y los "0" son paredes.
 
-<div align="center">
-
-| **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** |
-| **1** | **0** | **1** | **0** | **0** | **0** | **1** | **0** | **0** | **0** | **0** | **0** | **0** | **0** | **1** |
-| **1** | **0** | **1** | **0** | **1** | **1** | **0** | **1** | **0** | **0** | **1** | **1** | **1** | **0** | **1** |
-| **1** | **0** | **1** | **0** | **1** | **1** | **0** | **1** | **0** | **0** | **1** | **0** | **1** | **0** | **1** |
-| **1** | **0** | **0** | **0** | **0** | **1** | **0** | **T** | **0** | **0** | **1** | **0** | **1** | **0** | **1** |
-| **1** | **1** | **0** | **1** | **0** | **1** | **0** | **1** | **0** | **0** | **1** | **0** | **1** | **0** | **1** |
-| **1** | **1** | **0** | **1** | **0** | **0** | **0** | **0** | **0** | **0** | **1** | **0** | **0** | **0** | **1** |
-| **1** | **1** | **0** | **1** | **0** | **1** | **1** | **1** | **0** | **0** | **1** | **1** | **1** | **0** | **1** |
-| **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** |
-
-</div>
+<div align="center"> <img src="extra/maze.PNG" alt="Matriz del laberinto" width="1000"/> </div>
 
 ### Diagrama de clases
 
@@ -238,11 +227,8 @@ Si quisieramos utilizar una matriz para representar el laberinto, estas serian l
 <br>
 -Li, C., & Ueno, M. (2017). _An extended depth-first search algorithm for optimal triangulation of Bayesian networks_. International Journal of Approximate Reasoning, 80, 294–312. doi:10.1016/j.ijar.2016.09.012
 <br>
-
 -Subham, D. (11 de noviembre del 2022). _Backtracking Algorithms_. Baeldung. [https://www.baeldung.com/cs/backtracking-algorithms](https://www.baeldung.com/cs/backtracking-algorithms)
 <br>
-
 -Thompson, B. (14 de enero del 2023). _Stack in C++ STL with Example_. Guru99. [https://www.guru99.com/stack-in-cpp-stl.html](https://www.guru99.com/stack-in-cpp-stl.html)
 <br>
-
 -Welch, S. (25 de marzo del 2020). _C++ Queues Explained_. Udacity. [https://www.udacity.com/blog/2020/03/c-queues-explained.html](https://www.udacity.com/blog/2020/03/c-queues-explained.html)
