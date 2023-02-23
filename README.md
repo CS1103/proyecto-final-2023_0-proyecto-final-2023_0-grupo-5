@@ -221,14 +221,18 @@ los "1" son las casillas por donde se puede mover, y los "0" son paredes.
 - Benjamin Soto Mayta
 - Fabrizzio Vilchez Espinoza
 
-## Referencias y links
+## Referencias
 
 -GeeksForGeeks. (21 de febrero del 2023). _Breadth First Search or BFS for a Graph_. Geeks for Geeks. Recuperado el 22 de febrero del 2023 de [https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/](https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/)
 <br>
+<br>
 -Li, C., & Ueno, M. (2017). _An extended depth-first search algorithm for optimal triangulation of Bayesian networks_. International Journal of Approximate Reasoning, 80, 294–312. doi:10.1016/j.ijar.2016.09.012
+<br>
 <br>
 -Subham, D. (11 de noviembre del 2022). _Backtracking Algorithms_. Baeldung. [https://www.baeldung.com/cs/backtracking-algorithms](https://www.baeldung.com/cs/backtracking-algorithms)
 <br>
+<br>
 -Thompson, B. (14 de enero del 2023). _Stack in C++ STL with Example_. Guru99. [https://www.guru99.com/stack-in-cpp-stl.html](https://www.guru99.com/stack-in-cpp-stl.html)
+<br>
 <br>
 -Welch, S. (25 de marzo del 2020). _C++ Queues Explained_. Udacity. [https://www.udacity.com/blog/2020/03/c-queues-explained.html](https://www.udacity.com/blog/2020/03/c-queues-explained.html)
