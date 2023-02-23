@@ -44,7 +44,7 @@ de la Universidad de Ingeniería y Tecnología 💙🤍. Esperemos les guste. �
     <li><a href="#diagramas">
       Diagramas
       <ul>
-        <li><a href="#Grafo de un tablero cualquiera (tamaño m x n)">Grafo del tablero-11x11</a></li>
+        <li><a href="#Grafo de un tablero cualquiera (tamaño m x n)">Grafo de un tablero cualquiera (tamaño m x n)</a></li>
         <li><a href="#diagrama-de-clases">Diagrama de clases</a></li>
       </ul>
     </a></li>
@@ -55,7 +55,7 @@ de la Universidad de Ingeniería y Tecnología 💙🤍. Esperemos les guste. �
       Autores
     </a></li>
     <li><a href="#referencias">
-      Referencias y links
+      Referencias
     </a></li>
   </ol>
 </details>
