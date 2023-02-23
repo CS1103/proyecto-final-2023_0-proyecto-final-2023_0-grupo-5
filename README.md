@@ -54,7 +54,7 @@ de la Universidad de Ingeniería y Tecnología 💙🤍. Esperemos les guste. �
     <li><a href="#autores">
       Autores
     </a></li>
-    <li><a href="#referencias-y-links">
+    <li><a href="#referencias">
       Referencias y links
     </a></li>
   </ol>
