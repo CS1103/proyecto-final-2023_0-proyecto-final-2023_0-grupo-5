@@ -113,7 +113,7 @@ entre un jugador de manera local, u contra la misma computadora.
 
 - **BFS (Breadth First Search):**
 
-  Una búsqueda en anchura (BFS) es un algoritmo que se utiliza para buscar y recorrer nodos en un grafo o árbol, empezando por el nodo raíz y explorando primero los nodos vecinos en el mismo nivel antes de pasar a los nodos del siguiente nivel. Se implementa utilizando una cola para almacenar los nodos que se van explorando en cada nivel y es eficiente para encontrar el camino más corto entre dos nodos.
+  Una búsqueda en anchura (BFS) es un algoritmo que se utiliza para buscar y recorrer nodos en un grafo o árbol, empezando por el nodo raíz y explorando primero los nodos vecinos en el mismo nivel antes de pasar a los nodos del siguiente nivel. Se implementa utilizando una cola para almacenar los nodos que se van explorando en cada nivel y es eficiente para encontrar el camino más corto entre dos nodos (Geeks For Geeks, 2023).
 
 <div align="center">
 <img src= extra/bfs.jpg format=jpg&name=small" width="500px">
@@ -121,7 +121,7 @@ entre un jugador de manera local, u contra la misma computadora.
 
 - **DFS (Deep First Search):**
 
-  Una búsqueda en profundidad (DFS) es un algoritmo que se utiliza para recorrer y buscar nodos en un grafo o árbol, explorando un camino hasta que se alcance un nodo sin hijos, para después regresar y explorar otro camino. Se comienza por el nodo raíz y se explora a profundidad antes de regresar a explorar otros caminos. El DFS puede implementarse mediante recursión o utilizando una pila para almacenar los nodos a explorar.
+  Una búsqueda en profundidad (DFS) es un algoritmo que se utiliza para recorrer y buscar nodos en un grafo o árbol, explorando un camino hasta que se alcance un nodo sin hijos, para después regresar y explorar otro camino. Se comienza por el nodo raíz y se explora a profundidad antes de regresar a explorar otros caminos. El DFS puede implementarse mediante recursión o utilizando una pila para almacenar los nodos a explorar (Li & Ueno, 2017).
 
 <div align="center">
 <img src= extra/dfs.jpg format=jpg&name=small" width="500px">
@@ -129,7 +129,7 @@ entre un jugador de manera local, u contra la misma computadora.
 
 - **Backtracking:**
 
-  Backtracking, también conocido como "vuelta atrás", es un algoritmo que se utiliza para resolver problemas de decisión en los que es necesario buscar todas las posibles soluciones. Comienza con una solución parcial y avanza iterativamente intentando agregar elementos adicionales, hasta encontrar una solución completa o descubrir que no hay solución. Si se llega a un callejón sin salida, se regresa a la solución anterior y se intenta otra opción. El backtracking puede ser implementado mediante recursión o utilizando una pila para almacenar las soluciones parciales.
+  Backtracking, también conocido como "vuelta atrás", es un algoritmo que se utiliza para resolver problemas de decisión en los que es necesario buscar todas las posibles soluciones. Comienza con una solución parcial y avanza iterativamente intentando agregar elementos adicionales, hasta encontrar una solución completa o descubrir que no hay solución. Si se llega a un callejón sin salida, se regresa a la solución anterior y se intenta otra opción. El backtracking puede ser implementado mediante recursión o utilizando una pila para almacenar las soluciones parciales (Subham, 2022).
 
 <div align="center">
 <img src= extra/bct.png format=jpg&name=small" width="500px">
@@ -137,7 +137,7 @@ entre un jugador de manera local, u contra la misma computadora.
 
 - **Stack:**
 
-  Un stack (pila) es una estructura de datos que se utiliza en programación para almacenar y acceder a elementos de manera ordenada, siguiendo el principio de "último en entrar, primero en salir" (LIFO). Es decir, el último elemento añadido a la pila es el primero en ser eliminado. Las operaciones fundamentales de una pila son "push" (añadir un elemento al final) y "pop" (eliminar el último elemento añadido). Las pilas se utilizan en diversas aplicaciones, como el manejo de llamadas en una función recursiva, el uso del historial en un navegador web, entre otros.
+  Un stack (pila) es una estructura de datos que se utiliza en programación para almacenar y acceder a elementos de manera ordenada, siguiendo el principio de "último en entrar, primero en salir" (LIFO). Es decir, el último elemento añadido a la pila es el primero en ser eliminado. Las operaciones fundamentales de una pila son "push" (añadir un elemento al final) y "pop" (eliminar el último elemento añadido). Las pilas se utilizan en diversas aplicaciones, como el manejo de llamadas en una función recursiva, el uso del historial en un navegador web, entre otros (Thompson, 2023).
 
 <div align="center">
 <img src= extra/stack.png format=jpg&name=small" width="500px">
@@ -145,7 +145,7 @@ entre un jugador de manera local, u contra la misma computadora.
 
 - **Queue:**
 
-  Una queue (cola) es una estructura de datos en programación que se utiliza para almacenar y acceder a elementos de manera ordenada, siguiendo el principio de "primero en entrar, primero en salir" (FIFO). Es decir, el primer elemento añadido a la cola es el primero en ser eliminado. Las operaciones fundamentales de una cola son "enqueue" (añadir un elemento al final) y "dequeue" (eliminar el primer elemento añadido). Las colas se utilizan en diversas aplicaciones, como en la impresión de documentos, el manejo de mensajes en una red de comunicación, entre otros.
+  Una queue (cola) es una estructura de datos en programación que se utiliza para almacenar y acceder a elementos de manera ordenada, siguiendo el principio de "primero en entrar, primero en salir" (FIFO). Es decir, el primer elemento añadido a la cola es el primero en ser eliminado. Las operaciones fundamentales de una cola son "enqueue" (añadir un elemento al final) y "dequeue" (eliminar el primer elemento añadido). Las colas se utilizan en diversas aplicaciones, como en la impresión de documentos, el manejo de mensajes en una red de comunicación, entre otros (Welch, 2020).
 
 <div align="center">
 <img src= extra/queue.png format=jpg&name=small" width="500px">
@@ -196,6 +196,29 @@ Distribuido bajo la licencia GNU. Ver [`LICENCE`](LICENCE) para más informació
 ## Diagramas
 
 ### Grafo de un tablero cualquiera (tamaño m x n)
+<div align="center"> <img src="extra/graph.PNG" alt="Grafo del laberinto" width="1000"/> </div>
+<br>
+
+- Podemos observar que cada nodo del grafo se representa con un "1", representando el camino que se ha creado dentro del laberinto hasta el objetivo (centro).
+- Se cumple que hay 2 nodos principales que marcan el inicio de ambos jugadores, con un nodo objetivo que esta en el centro.
+- La posibilidad de existencia de bucles es alta, sin embargo, se puede recorrer cualquier nodo en cualquier dirección, siempre y cuando este tenga un "1".
+
+Si quisieramos utilizar una matriz para representar el laberinto, estas serian las relaciónes por casillas en un tablero de  **15 x 9**. Donde T marca el objetivo siempre en el medio.
+
+<div align="center">
+
+| **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** |
+| **1** | **0** | **1** | **0** | **0** | **0** | **1** | **0** | **0** | **0** | **0** | **0** | **0** | **0** | **1** |
+| **1** | **0** | **1** | **0** | **1** | **1** | **0** | **1** | **0** | **0** | **1** | **1** | **1** | **0** | **1** |
+| **1** | **0** | **1** | **0** | **1** | **1** | **0** | **1** | **0** | **0** | **1** | **0** | **1** | **0** | **1** |
+| **1** | **0** | **0** | **0** | **0** | **1** | **0** | **T** | **0** | **0** | **1** | **0** | **1** | **0** | **1** |
+| **1** | **1** | **0** | **1** | **0** | **1** | **0** | **1** | **0** | **0** | **1** | **0** | **1** | **0** | **1** |
+| **1** | **1** | **0** | **1** | **0** | **0** | **0** | **0** | **0** | **0** | **1** | **0** | **0** | **0** | **1** |
+| **1** | **1** | **0** | **1** | **0** | **1** | **1** | **1** | **0** | **0** | **1** | **1** | **1** | **0** | **1** |
+| **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** | **1** |
+
+</div>
+</div>
 
 ### Diagrama de clases
 
@@ -204,10 +227,16 @@ Distribuido bajo la licencia GNU. Ver [`LICENCE`](LICENCE) para más informació
 ## Autores
 
 - Nombre genérico 1
-- Nombre genérico 2
-- Nombre genérico 3
-- Nombre genérico 4
-- Nombre genérico 5
-- Fabrizzio Nicolay Vilchez Espinoza
+- Jesus Egusquiza Ore
+- Sebastian Rodriguez Herrera
+- Fabricio Chavez Balarezo
+- Benjamin Soto Mayta
+- Fabrizzio Vilchez Espinoza
 
 ## Referencias y links
+
+-GeeksForGeeks. (21 de febrero del 2023). _Breadth First Search or BFS for a Graph_. Geeks for Geeks. Recuperado el 22 de febrero del 2023 de [https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/](https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/)
+-Li, C., & Ueno, M. (2017). _An extended depth-first search algorithm for optimal triangulation of Bayesian networks_. International Journal of Approximate Reasoning, 80, 294–312. doi:10.1016/j.ijar.2016.09.012
+-Subham, D. (11 de noviembre del 2022). _Backtracking Algorithms_. Baeldung. [https://www.baeldung.com/cs/backtracking-algorithms](https://www.baeldung.com/cs/backtracking-algorithms)
+-Thompson, B. (14 de enero del 2023). _Stack in C++ STL with Example_. Guru99. [https://www.guru99.com/stack-in-cpp-stl.html](https://www.guru99.com/stack-in-cpp-stl.html)
+-Welch, S. (25 de marzo del 2020). _C++ Queues Explained_. Udacity. [https://www.udacity.com/blog/2020/03/c-queues-explained.html](https://www.udacity.com/blog/2020/03/c-queues-explained.html)
