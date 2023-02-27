@@ -10,16 +10,14 @@
 class Menu {
 public:
     OptionEvent option;
+    void updateMENU();
+    void updateMENUOPTIONS();
+    void drawMENU();
+    void drawMENUOPTIONS();
 };
 
 Menu *initMenu(void);
-
-void updateMenu(Menu *const menu);
-
-void drawMenu(const Menu *const menu);
-
-void freeMenu(Menu **menu);
-
+void freeMenu2(Menu *menu);
 OptionEvent finishMenu(void);
 
 #endif //EXAMPLES_MENU2_H

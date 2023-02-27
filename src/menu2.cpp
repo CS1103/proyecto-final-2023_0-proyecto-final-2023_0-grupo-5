@@ -6,8 +6,6 @@
 extern Global globalData;
 
 static OptionEvent onOptionEvent = OPT_EMPTY;
-static void updateMenuOptions(Menu *const menu);
-static void drawMenuOptions(const Menu *const menu);
 static void drawTitle();
 
 Menu *initMenu() {
@@ -19,40 +17,35 @@ Menu *initMenu() {
     return menu;
 }
 
-void updateMenu(Menu *const menu) {
-    updateMenuOptions(menu);
-
+void Menu::updateMENU() {
+    updateMENUOPTIONS();
     if (IsKeyPressed(KEY_ENTER)) {
-        if (menu->option == OPT_START) {
-            onOptionEvent = OPT_START;
+        if (option == OPT_START) {
+            onOptionEvent = OPT_START;      // ACTUALIZA EL EVENTO QUE SE ABRE
         }
-        else if (menu->option == OPT_OPTIONS) {
+        else if (option == OPT_OPTIONS) {
             onOptionEvent = OPT_OPTIONS;
         }
-        else if (menu->option == OPT_EXIT) {
+        else if (option == OPT_EXIT) {
             onOptionEvent = OPT_EXIT;
         }
     }
 }
-
-
-void drawMenu(const Menu *const menu) {
+void Menu::drawMENU() {
     drawTitle();
-    drawMenuOptions(menu);
+    drawMENUOPTIONS();
 }
 
-void freeMenu(Menu **menu) {
-    if (*menu != NULL) {
-        free(*menu);
-        *menu = NULL;
+void freeMenu2(Menu *menu) {
+    if (menu != NULL) {
+        free(menu);
+        menu = NULL;
     }
 }
-
 OptionEvent finishMenu(void) {
-    return onOptionEvent;
+    return onOptionEvent;   // RETORNA EL EVENTO
 }
-
-static void drawMenuOptions(const Menu *const menu) {
+void Menu::drawMENUOPTIONS() {
     const int32_t middleWidth = GetScreenWidth() / 2;
     const int32_t middleHeight = GetScreenHeight() / 2;
     const int32_t fontSize = 24;
@@ -61,34 +54,36 @@ static void drawMenuOptions(const Menu *const menu) {
     const int32_t posXOptions = middleWidth - MeasureText("OPTIONS", fontSize) / 2;
     const int32_t posXExit = middleWidth - MeasureText("EXIT", fontSize) / 2;
 
-    const Color startColor = (menu->option == OPT_START) ? (Color){ 224, 219, 205, 255 } : (Color){ 112, 107, 102, 255 };
-    const Color optionsColor = (menu->option == OPT_OPTIONS) ? (Color){ 224, 219, 205, 255 } : (Color){ 112, 107, 102, 255 };
-    const Color endColor = (menu->option == OPT_EXIT) ? (Color){ 224, 219, 205, 255 } : (Color){ 112, 107, 102, 255 };
+    const Color startColor = (option == OPT_START) ? (Color){ 224, 219, 205, 255 } : (Color){ 112, 107, 102, 255 };
+    const Color optionsColor = (option == OPT_OPTIONS) ? (Color){ 224, 219, 205, 255 } : (Color){ 112, 107, 102, 255 };
+    const Color endColor = (option == OPT_EXIT) ? (Color){ 224, 219, 205, 255 } : (Color){ 112, 107, 102, 255 };
 
     DrawText("START", posXStart, posY, fontSize, startColor);
     DrawText("OPTIONS", posXOptions, posY + fontSize + 5, fontSize, optionsColor);
     DrawText("EXIT", posXExit, posY + (fontSize * 2) + 10, fontSize, endColor);
 }
-
-static void updateMenuOptions(Menu *const menu) {
+void Menu::updateMENUOPTIONS() {
     const auto min = (int32_t) OPT_START;
     const auto max = (int32_t) OPT_EXIT;
     if (IsKeyPressed(KEY_UP)) {
-        const int32_t value = menu->option - 1;
+        const int32_t value = option - 1;
         if (value >= min) {
-            menu->option = static_cast<OptionEvent>(menu->option - 1);
+            option = static_cast<OptionEvent>(option - 1);
         } else {
-            menu->option = OPT_EXIT;
+            option = OPT_EXIT;
         }
     } else if (IsKeyPressed(KEY_DOWN)) {
-        const int32_t value = menu->option + 1;
+        const int32_t value = option + 1;
         if (value <= max) {
-            menu->option = static_cast<OptionEvent>(menu->option + 1);
+            option = static_cast<OptionEvent>(option + 1);
         } else {
-            menu->option = OPT_START;
+            option = OPT_START;
         }
     }
 }
+
+
+
 
 static void drawTitle() {
     const int32_t fontSize = 128;
@@ -102,3 +97,4 @@ static void drawTitle() {
     DrawText("MAZE", posX, posYBase + posY, fontSize, (Color){ 112, 107, 102, 255 });
     DrawRectangle(posX, posYBase + fontSize + 10, titleLen, height, (Color){ 168, 159, 148, 255 });
 }
+
