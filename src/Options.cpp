@@ -71,38 +71,41 @@ Options *initOptions(void) {
     return options;
 }
 
-void updateOptions(Options *const options) {
-    updateItemSelected(options);
+
+void Options::updateOPTIONS() {
+    updateItemSelected(this);
     //changeValueItem(options);
-    updateTheme(options);
+    updateTheme(this);
     updateThemeData();
-    updateMode(options);
+    updateMode(this);
     updateModeData();
     //updateFullScreen(options);
     closeOptions();
 }
+
+
 bool finishOptions(void) {
     return finished;
 }
-void drawOptions(const Options *const options) {
+void Options::DrawOPTIONS() {
     int32_t posY = 100;
     drawTitle();
     //drawOptionPtos(options, posY);
     posY += FONTSIZE + 10;
-    drawOptionTheme(options, posY);
+    drawOptionTheme(this, posY);
     posY += FONTSIZE + 10;
-    drawOptionGameMode(options, posY);
+    drawOptionGameMode(this, posY);
     posY += FONTSIZE + 10;
     //drawOptionFullScreen(options, posY);
 }
 
-void freeOptions(Options **options) {
-    if (*options != NULL) {
+void freeOptions2(Options *options) {
+    if (options != NULL) {
         //freePtos();
         freeMusic();
         freeGameMode();
-        free(*options);
-        *options = NULL;
+        free(options);
+        options = NULL;
 #ifdef PONG_DEBUG
         TraceLog(LOG_INFO, PONG_SCENE_OPTIONS_DELETED);
 #endif
@@ -220,19 +223,14 @@ static void updateThemeData() {
             case MUSIC_1:
                 strcat(musicData, SONG1);
                 cout << &GetCurrentMonitor;
-                //SetWindowSize(480,360);
                 break;
             case MUSIC_2:
                 strcat(musicData, SONG2);
-                //SetWindowSize(1200,720);
                 break;
             case MUSIC_3:
-                //SetWindowSize(1000,500);
                 strcat(musicData, SONG3);
                 break;
             case MUSIC_4:
-                //SetWindowSize(800,600);
-
                 strcat(musicData, SONG4);
                 break;
         }
@@ -272,3 +270,5 @@ static void updateModeData(void) {
         }
     }
 }
+
+

@@ -1,56 +1,27 @@
 #include "scenes.h"
-#include "menu2.h"
-#include "Options.h"
 #include <stdlib.h>
 #include "iostream"
-#include "maze/maze2.h"
-
+#include "maze/Game.h"
 using namespace std;
-// declaration static functions.
 static bool finished = false;
 
-static void loadScene(SceneHandler *handler, ScenesTypes type);
-static Menu *loadMenuScene(void);
-static Maze2*loadMazeScene(void);
-static Options* loadBoardOptions(void);
-static void unloadScene(SceneHandler *handler);
-static void updateScene(SceneHandler *handler);
-static void drawScene(const SceneHandler *const handler);
-
-
-// implementation public functions.
-SceneHandler *initSceneHandler(void) {
+SceneHandler *initSceneHandler() {
     /// RESERVANDO ESPACIO DE MEMORIA AL HANDLER
     finished = false;
-    //SceneHandler *handler = static_cast<SceneHandler *>(malloc(sizeof(SceneHandler)));
     SceneHandler* handler = new SceneHandler;
-    if (handler == NULL) {
-        return NULL;
-    }
-
-
     handler->scene = NULL;
-    loadScene(handler, SCENE_MENU);
+    handler->loadEscena(SCENE_MENU);
     return handler;
 }
 
-void updateSceneHandler(SceneHandler *const handler) {
-    updateScene(handler);
-}
 
-void drawSceneHandler(const SceneHandler *const handler) {
-    drawScene(handler);
-}
 
-void freeScenehandler(SceneHandler **handler) {
-    if (*handler != NULL) {
+void freeScenehandler(SceneHandler *handler) {
+    if (handler != NULL) {
         cout << "maze eliminado" << endl;
-        unloadScene(*handler);
-        free(*handler);
+        handler->unloadEscena();
+        free(handler);
         handler = NULL;
-#ifdef PONG_DEBUG
-        TraceLog(LOG_INFO, PONG_SCENE_HANDLER_DELETED);
-#endif
     }
 }
 
@@ -58,87 +29,87 @@ bool finishSceneHanlder(void) {
     return finished;
 }
 
-
-// implementation static functions.
-static void loadScene(SceneHandler *handler, ScenesTypes type) {
-    unloadScene(handler);
-    handler->type = type;
-    switch (type) {
+void SceneHandler::loadEscena( ScenesTypes types) {
+    unloadEscena();
+    tipos = types;
+    switch (types) {
         case SCENE_MENU:
-            handler->scene = loadMenuScene();
+            cout << "MENU";
+            main = initMenu();
             break;
         case SCENE_BOARD:
-            handler->scene = loadMazeScene();
+            cout << "iniciando juego";
+            juego = initGame();
             break;
         case SCENE_OPTIONS:
-            handler->scene = loadBoardOptions();
+            cout << "OPTIONS";
+            optionss = initOptions();
     }
 }
 
-static Menu *loadMenuScene(void) {
-    return initMenu();
-}
-static Maze2* loadMazeScene(void) {
-    return initBoard();
-}
 
-static Options* loadBoardOptions(void) {
-    return initOptions();
-}
 
-static void unloadScene(SceneHandler *handler) {
-    switch (handler->type) {
+
+void SceneHandler::unloadEscena() {
+    switch (tipos) {
         case SCENE_MENU:
-            freeMenu((Menu **)&handler->scene);
+            cout << "cerrando menu XDDDD";
+            freeMenu2(main);
             break;
         case SCENE_BOARD:
-            freeMaze((Maze2** )&handler->scene);
             cout << "Maze cerrado";
+            freeGame2(juego);
             break;
         case SCENE_OPTIONS:
-            freeOptions((Options **)&handler->scene);
+            freeOptions2(optionss);
             cout << "cerrar options";
     }
 }
 
-static void updateScene(SceneHandler *handler) {
+void SceneHandler::updateScene() {
     const OptionEvent event = finishMenu();
-    switch (handler->type) {
+    switch (tipos) {
         case SCENE_MENU:
-            updateMenu((Menu *)handler->scene);
+            main->updateMENU();
             if (event!= OPT_EMPTY) {
                 if (event == OPT_START) {
-                    loadScene(handler, SCENE_BOARD);
+                    loadEscena(SCENE_BOARD);
                 } else if (event == OPT_OPTIONS) {
-                    loadScene(handler, SCENE_OPTIONS);
+                    loadEscena(SCENE_OPTIONS);
                 } else if (event == OPT_EXIT) {
                     finished = true;
                 }
             }
             break;
         case SCENE_BOARD:
-            updateMaze2((Maze2 *)handler->scene);
-            if (finishMaze()) {
-                loadScene(handler, SCENE_MENU);
+            juego->updateGAMES();
+            if (finishGAME()) {
+                loadEscena( SCENE_MENU);
             }
             break;
         case SCENE_OPTIONS:
-            updateOptions((Options *)handler->scene);
+            optionss->updateOPTIONS();
             if (finishOptions()) {
-                loadScene(handler, SCENE_MENU);
+                loadEscena( SCENE_MENU);
+
             }
+    }
+}
+/// USANDO
+void SceneHandler::drawSceneHandler() {
+    switch (tipos) {
+        case SCENE_MENU:
+            main->drawMENU();
+            break;
+        case SCENE_BOARD:
+            juego->DRAWGAME();
+            break;
+        case SCENE_OPTIONS:
+            optionss->DrawOPTIONS();
+            break;
     }
 }
 
-static void drawScene(const SceneHandler *const handler) {
-    switch (handler->type) {
-        case SCENE_MENU:
-            drawMenu((Menu *)handler->scene);
-            break;
-        case SCENE_BOARD:
-            drawMaze2((Maze2 *)handler->scene);
-            break;
-        case SCENE_OPTIONS:
-            drawOptions((Options *)handler->scene);
-    }
-}
+
+
+

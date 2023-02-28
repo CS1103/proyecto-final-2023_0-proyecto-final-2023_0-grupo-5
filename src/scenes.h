@@ -6,7 +6,8 @@
 #define EXAMPLES_SCENES_H
 
 #include "menu2.h"
-
+#include "Options.h"
+#include "maze/Game.h"
 #include <raylib.h>
 
 typedef enum ScenesTypes {
@@ -16,18 +17,25 @@ typedef enum ScenesTypes {
 } ScenesTypes;
 
 class SceneHandler {
+private:
+    ScenesTypes tipos;
 public:
     void *scene;
     ScenesTypes type;
+    Menu* main;
+    Options* optionss;
+    Game* juego;
+    void updateScene();
+    void loadEscena( ScenesTypes type);
+    void unloadEscena();
+    void drawSceneHandler();
 };
 
 SceneHandler *initSceneHandler(void);
 
-void updateSceneHandler(SceneHandler *const handler);
 
-void drawSceneHandler(const SceneHandler *const handler);
 
-void freeScenehandler(SceneHandler **handler);
+void freeScenehandler(SceneHandler *handler);
 
 
 bool finishSceneHanlder(void);
