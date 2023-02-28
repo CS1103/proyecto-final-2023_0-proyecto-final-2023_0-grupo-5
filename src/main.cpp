@@ -1,5 +1,3 @@
-#include "iostream"
-#include "raylib.h"
-
-
-using namespace std;
+//
+// Created by USER on 4/02/2023.
+//

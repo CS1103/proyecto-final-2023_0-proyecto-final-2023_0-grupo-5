@@ -1,87 +1,135 @@
-
-//
-// Created by Jesus on 4/02/2023.
-//
-
 #include "Na_No_hA_Stricker.h"
 
 using namespace std;
-void Bot::DFS(Laberinto &Maze) {
-    if (x_ != 15 or y_ != 15){
-        I current_x = x_;
-        I current_y = y_;
-        if ((Maze(current_y,current_x-1) == 1 or Maze(current_y,current_x-1) == 3)and current_x<MAZE_WIDTH and current_x >= 0){
-            cout << "CORRE 1" << endl;
-            cout << x_ << y_;
-            x_-=1;
-            Maze(current_y,current_x-1) = 2;
-            visited_cordinates_bot.push({current_y,current_x-1});
-        }
-        else if ((Maze(current_y+1,current_x) == 1 or Maze(current_y+1,current_x) == 3 )and current_y <MAZE_WIDTH and current_y >= 0){
-            cout << "CORRE 3" << endl;
-            cout << x_ << y_;
-            y_+=1;
-            Maze(current_y+1,current_x) = 2;
-            visited_cordinates_bot.push({current_y+1,current_x});
-        }
-        else if ((Maze(current_y,current_x+1) == 1 or Maze(current_y,current_x+1) == 3) and current_x < MAZE_WIDTH and current_x >= 0){
-            cout << "CORRE 2" << endl;
-            cout << x_ << y_;
-            x_+=1;
-            Maze(current_y,current_x+1) = 2;
-            visited_cordinates_bot.push({current_y,current_x+1});
-        }
-
-        else if ((Maze(current_y-1,current_x) == 1 or Maze(current_y-1,current_x) == 3) and current_y <MAZE_WIDTH and current_y >= 0){
-            cout << "CORRE 4" << endl;
-            cout << x_ << y_;
-
-            y_-=1;
-            Maze(current_y-1,current_x) = 2;
-            visited_cordinates_bot.push({current_y-1,current_x});
-        }
-        else{
-            cout << "elimina" << endl;
-            visited_cordinates_bot.pop();
-            x_ = visited_cordinates_bot.top().second;
-            y_ = visited_cordinates_bot.top().first;
-            cout << x_ << y_ << endl;
-        }
-    }
-
-}
-
-void Bot::draw() {
-    DrawRectangleRec(bot,PINK);
-
-}
-
-void Bot::DFS2(Laberinto &Maze) {
+//PARA D
+void Bot_DFS::DFS(Laberinto &Maze) {
     vector<Pi> Cardinals{{0, -1},{1,0},{0,1},{-1,0}};
-    if (visited_cordinates_bot.top() != Target){
+    if (Visited_coords.top() != Target){
         int tem=0;
+
         for (auto Adder: Cardinals){
-            Pi Next = {visited_cordinates_bot.top().first + Adder.first, visited_cordinates_bot.top().second + Adder.second};
+            Pi Next = {Visited_coords.top().first + Adder.first, Visited_coords.top().second + Adder.second};
             if (Maze(Next.first, Next.second) != 0 and
                 Maze(Next.first, Next.second) != 2 and (Next.first>=0 and Next.first<MAZE_HEIGHT) and ((Next.second>=0 and Next.second<MAZE_WIDTH))){
                 Maze(Next.first,Next.second) = 2;
-                visited_cordinates_bot.push(Next);
+                Path[Next]=Visited_coords.top();
+                Visited_coords.push(Next);
                 break;
             }tem++;
         }
-        if (tem == 4){ visited_cordinates_bot.pop();}
+        if (tem == 4){ Visited_coords.pop();}
+    }else{
+        PathAvaliable=true;
     }
 }
 
 
-void Bot::BFS(Laberinto& Maze) {
+void Bot_DFS::draw() {
+    DrawRectangleRec(bot,PINK);
+}
+
+
+void Bot_DFS::GeneratePath(Pi coord) {
+
+
+    if(PathAvaliable  and SearchNumber==0)
+    {
+        if(Path[coord]!=coord  )
+        {cout<<"ESTA COORDENADA NO ES ROOT-->  ("<<coord.first<<";"<<coord.second<<")"<<endl;
+
+            Movement.push(coord);
+            GeneratePath(Path[coord]);
+        }else {
+            Movement.push(coord);
+            PathReady= true;
+            SearchNumber=1;
+            cout<<"ENTRO A LA VERDAD"<<endl;
+        }
+    }
+    if(PathReady)
+    {
+        cout<<"Bot is heading to Target..."<<endl;
+    }
+
+}
+
+
+void Bot_DFS::Botmove(Laberinto &Maze) {
+    bool  stop_condition= true;
+
+    if(IsKeyPressed(KEY_F))
+    {   Visited.insert(Movement.top());
+        Maze(Movement.top().first, Movement.top().second) = 3;
+        Movement.pop();
+        stop_condition= true;
+    }
+
+    if(!Movement.empty() ) {
+        vector<Pi> Cardinals{{0,  1},
+                             {0,  -1},
+                             {-1, 0},
+                             {1,  0}}; // East , West , North and South
+        Pi cur_coord = Movement.top();
+        Visited.insert(Movement.top());
+        int cont = 0;
+
+        for (auto Adder: Cardinals) {
+
+            Pi Next = {cur_coord.first + Adder.first,
+                       cur_coord.second + Adder.second}; // Establish next possible coordinate
+            if (Maze(Next.first, Next.second) != 0 and
+                Visited.find(Next) == Visited.end() and (cur_coord!= make_pair(int(x_),int(y_))))//Check if next is an avaliable neighbor
+            {
+                cont++;
+                if (cont > 1) {
+                    stop_condition = false;
+                    break;
+                }
+            }
+        }
+        if(stop_condition)
+        {Maze(Movement.top().first, Movement.top().second) = 3;
+            Movement.pop();}
+    }
+}
+
+void Bot_DFS::GeneralBehaivor() {
+    cout<<"USANDO AL DSDSDS"<<endl;
+    DFS(maz);
+    GeneratePath(Target);
+}
+
+
+void Bot_DFS::draw_pathSeeking() {
+    draw();
+}
+
+bool Bot_DFS::StopTurn() {
+    return false;
+}
+void Bot_DFS::BoT_move() {
+    Botmove(maz);
+}
+
+bool Bot_DFS::getTurn() {
+    return turn;
+}
+
+void Bot_DFS::setTurn(bool trn) {
+    turn = trn;
+}
+
+//PARA B
+void Bot_BFS::draw() {
+    DrawRectangleRec(bot,PINK);
+
+}
+void Bot_BFS::BFS(Laberinto& Maze) {
     vector<Pi> Cardinals{{0, 1},{0, -1}, { -1, 0 },{ 1, 0 }}; // East , West , North and South
-    if(Visited_coords_distance.top().first != Target) {
+    while(Visited_coords.top() != Target and Frontier.front()!=Target) {
         Pi cur_coord = Frontier.front();//Current Coordinates
-        int Distance =0;
-        Distance=Visited_coords_distance.top().second;
+        Maze(cur_coord.first,cur_coord.second)=2;
         Frontier.pop();// Eliminate the first element on qeue that is a visited neighbor
-        cout<<cur_coord.first+1<<";"<<cur_coord.second+1<<"   D-->   ("<<Distance<<")  ELIMINADA"<<endl;
         cout<<endl;
         for (auto Adder: Cardinals) {
 
@@ -90,23 +138,121 @@ void Bot::BFS(Laberinto& Maze) {
             if (Maze(Next.first, Next.second) != 0 and
                 Maze(Next.first, Next.second) != 2 and (Next.first>=0 and Next.first<MAZE_HEIGHT-1) and ((Next.second>=0 and Next.second<MAZE_WIDTH-1)))//Check if next is an avaliable neighbor
             {
-                cout<<setw(3)<<Next.first+1<<";"<<Next.second+1<<"AHORA EN COLA con distancia --->"<<Distance+1<<endl;
+
                 Frontier.push(Next);// Add the new neighbor
                 Maze(Next.first, Next.second) = 2; // Mark
-                Visited_coords_distance.push({Next, Distance + 1});
+                Visited_coords.push(Next);
+
+                Path[Next]=cur_coord; //Make the next coordinate a ramification of current coordinate
+                cout<<"Se ha hecho "<<Next.first<<";"<<Next.second<<" HIJO DE --> "<< cur_coord.first<<";"<<cur_coord.second<<endl;
+
             }
         }
-        cout<<"LA DISTANCIA DESPUES DE ESTE PROCESO ES --->"<<Distance<<endl;
-    }
-    /* int D_F=Visited_coords_distance.top().second;
-     while(!Visited_coords_distance.empty())
-     { cout<<setw(5)<<Visited_coords_distance.top().first.first+1<<";"<<Visited_coords_distance.top().first.second+1<<"-->"<<Visited_coords_distance.top().second<<endl;
-         if(D_F-1==Visited_coords_distance.top().second) {
-             Path.push_back(Visited_coords_distance.top().first);
-             D_F--;
-         }
 
-         Visited_coords_distance.pop();
-     }
-     cout<<"TARGET REACHED !!!"<<endl;*/
+    }
+    PathAvaliable= true;
+
+}
+void Bot_BFS::GeneratePath(Pi coord) {
+
+    if(PathAvaliable  and SearchNumber==0)
+    {
+        if(Path[coord]!=coord  )
+        {cout<<"ESTA COORDENADA NO ES ROOT-->  ("<<coord.first<<";"<<coord.second<<")"<<endl;
+
+            Movement.push(coord);
+            GeneratePath(Path[coord]);
+        }else {
+            Movement.push(coord);
+            PathReady= true;
+            SearchNumber=1;
+            cout<<"ENTRO A LA VERDAD"<<endl;
+        }
+    }
+    if(PathReady)
+    {
+        cout<<"Bot is heading to Target..."<<endl;
+    }
+
+}
+void Bot_BFS::BotMove(Laberinto &Maze) {
+    bool  stop_condition= true;
+
+
+
+    if(turn)
+    {   Visited.insert(Movement.top());
+        Maze(Movement.top().first, Movement.top().second) = 3;
+        Movement.pop();
+        turn = false;
+    }
+
+    if(!Movement.empty() ) {
+        vector<Pi> Cardinals{{0,  1},
+                             {0,  -1},
+                             {-1, 0},
+                             {1,  0}}; // East , West , North and South
+        Pi cur_coord = Movement.top();
+        Visited.insert(Movement.top());
+        int cont = 0;
+
+        for (auto Adder: Cardinals) {
+            Pi Next = {cur_coord.first + Adder.first,
+                       cur_coord.second + Adder.second}; // Establish next possible coordinate
+            if (Maze(Next.first, Next.second) != 0 and
+                Visited.find(Next) == Visited.end() and (cur_coord!= make_pair(int(x_),int(y_))))//Check if next is an avaliable neighbor
+            {
+                cont++;
+                if (cont > 1) {
+                    stop_condition = false;
+                    break;
+                }
+            }
+        }
+        if(stop_condition)
+        {Maze(Movement.top().first, Movement.top().second) = 3;
+            Movement.pop();}
+    }
+}
+
+void Bot_BFS::GeneralBehaivor(){
+    BFS(maze);
+    GeneratePath(Target);
+}
+void Bot_BFS::draw_pathSeeking() {
+    draw();
+}
+void Bot_BFS::BoT_move() {
+    BotMove(maze);
+}
+bool Bot_BFS::StopTurn() {
+    return false;
+}
+
+bool Bot_BFS::getTurn() {
+    return turn;
+}
+
+void Bot_BFS::setTurn(bool trn) {
+    turn = trn;
+}
+
+Bot_Factory::Bot_Factory(Laberinto MMaze,Type tipo):maze_(MMaze) {
+    pair<float,float> Origin;
+    if(MAZE_HEIGHT%2==0 and MAZE_WIDTH%2==0)
+        Origin= make_pair(0,0);
+    if(MAZE_HEIGHT%2!=0  and MAZE_WIDTH%2!=0)  Origin= make_pair(1,1);
+
+    if(tipo==BFS_BOT)
+    {
+        new_bot_instantiation = new Bot_BFS(Origin.first,Origin.second,maze_);
+    }
+    if(tipo==DFS_BOT)
+    {
+        new_bot_instantiation = new Bot_DFS(Origin.first,Origin.second,maze_);
+    }
+}
+
+GeneralPurpuseBot *Bot_Factory::Instanciar_Bot() {
+    return new_bot_instantiation;
 }

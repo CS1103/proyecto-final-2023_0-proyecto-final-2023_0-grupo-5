@@ -1,244 +1,121 @@
-//
-// Created by Fabri on 4/02/2023.
-//
-
 #ifndef MAZE_NA_NO_HA_STRICKER_H
 #define MAZE_NA_NO_HA_STRICKER_H
 #include "Laberinto.h"
-#include "queue"
-#include "iomanip"
+#include <queue>
+#include <iomanip>
+#include <map>
+#include <set>
 using I = int;
 using Pi = std::pair<int,int>;
-class Bot{
+class GeneralPurpuseBot{
+protected:
+    bool turn = false;
+public:
+    virtual void GeneralBehaivor()=0; // Target Search and Path making
+    virtual void draw_pathSeeking()=0; // Draw the bot
+    virtual void BoT_move() =0;// Once a path has being made the bot will start heding to its target
+    virtual bool StopTurn()=0; // Gives inormation about the movement status to other players //to be implemented
+    virtual bool getTurn() = 0;
+    virtual void setTurn(bool trn) = 0;
+
+};
 
 
+
+class Bot_BFS:public GeneralPurpuseBot{
 private:
     float x_{};
     float y_{};
-   std::stack<std::pair<Pi,int>>Visited_coords_distance;
-    std::queue<std::pair<int , int>> Frontier;
-    std::stack<Pi> visited_cordinates_bot;
-    std::vector<Pi> cordinates_bot_walks;
-    Pi Target;      //META
-    std::vector<Pi> Path;
-    Rectangle bot;
+    std::stack<Pi>Visited_coords; //needed in DFS and BFS
+    std::queue<std::pair<int , int>> Frontier; // needed in BFS
+    Pi Target;      //META -->//needed in DFS and BFS
+    std::map<Pi,Pi> Path;//needed in DFS(to be included) and BFS
+    bool PathAvaliable= false; //needed in DFS(to be included) and BFS
+    bool PathReady = false;//needed in DFS(to be included) and BFS
+    Rectangle bot;//General bot atribute
+    std::stack<Pi> Movement;//needed in DFS(to be included) and BFS
+    size_t SearchNumber=0;//needed in DFS(to be included) and BFS
+    Laberinto maze;
+    std::set<Pi> Visited;
 public:
 
-    Bot(float x , float y):x_(x),y_(y){
-        visited_cordinates_bot.push({x,y}); // Stablishing first coordinate
-        Visited_coords_distance.push({{x,y},0});
-        bot = {x*TILE_SIZE_WIDTH,y*TILE_SIZE_HEIGHT,TILE_SIZE_WIDTH,TILE_SIZE_HEIGHT};
-        Frontier.push({x,y});
-        Target={62,61};
+    Bot_BFS(float x , float y, Laberinto& Mmaze):x_(x),y_(y),maze(Mmaze){
+        Visited_coords.push({x, y});
+
+        Frontier.push({x,y});//set irst possition as visited
+        Target={MAZE_HEIGHT/2,MAZE_WIDTH/2};
+        Path[{x,y}]={x,y};//Mark first position as its own root
+
     }
+
     void draw();
-    ~Bot()= default;
-    [[nodiscard]] float getX() const {
-        return x_;
-    }
-    [[nodiscard]] float getY() const {
-        return y_;
-    }
-    Bot& operator+=(float act)
-    {
-        x_+=act;
-        return *this;
-    }
-    Bot& operator-=(float act)
-    {
-        x_-=act;
-        return *this;
-    }
-    Bot& operator+(float act)
-    {
-        y_+=act;
-
-        return *this;
-    }
-
-    Bot & operator-(float act)
-    {
-        y_-=act;
-        return *this;
-    }
-
-    int get_x_aprox() const{
-        if (x_>int(x_)+0.15){
-            return int(x_+1);
-        }
-        return int(x_);
-    }
-    int get_y_aprox() const{
-        if (y_>int(y_)+0.15){
-            return int(y_+1);
-        }
-        return int(y_);
-    }
-
-    void DFS(Laberinto& Maze);
-    void DFS2(Laberinto& Maze);
     void BFS(Laberinto& Maze);
+    void GeneratePath(Pi coord);
+    void BotMove(Laberinto & Maze);
+    //overriding unctions
+    void GeneralBehaivor()override;
+    void draw_pathSeeking()override;
+    void BoT_move() override;
+    bool StopTurn() override;
+
+    bool getTurn() override;
+    void setTurn(bool trn) override;
 
 };
-
-class Player{
+class Bot_DFS:public GeneralPurpuseBot{
 private:
-    int x_{};
-    int y_{};
-    Color color_;
+    float x_{};
+    float y_{};
+
+    std::stack<Pi> visited_cordinates_bot;
+    std::stack<Pi>Visited_coords; //needed in DFS and BFS
+    Pi Target;      //META -->//needed in DFS and BFS
+    std::map<Pi,Pi> Path;//needed in DFS(to be included) and BFS
+    bool PathAvaliable= false; //needed in DFS(to be included) and BFS
+    bool PathReady = false;//needed in DFS(to be included) and BFS
+    Rectangle bot;//General bot atribute
+    std::stack<Pi> Movement;//needed in DFS(to be included) and BFS
+    size_t SearchNumber=0;//needed in DFS(to be included) and BFS
+    Laberinto maz;
+    std::set<Pi> Visited;
 public:
-    Player(int x , int y, Color color):x_(x),y_(y), color_(color){
-    }
-    ~Player()= default;
-    [[nodiscard]] int getX() const {
-        return x_;
-    }
-    [[nodiscard]] int getY() const {
-        return y_;
-    }
-    void DrawPlayer(){
-        DrawRectangle(x_ * TILE_SIZE_WIDTH, y_ * TILE_SIZE_HEIGHT, TILE_SIZE_WIDTH, TILE_SIZE_HEIGHT, color_);
+
+    Bot_DFS(int x , int y, Laberinto Mmaze):x_(x),y_(y),maz(Mmaze){
+        Visited_coords.push({x, y});
+        //   visited_cordinates_bot.push({1,1}); // Stablishing first coordinate
+
+        Path[{x_,y_}]={x_,y_};//Mark first position as its own root
+        Target={MAZE_HEIGHT/2,MAZE_WIDTH/2};
+
     }
 
-    bool no_salga(){
-        if (IsKeyDown(KEY_A)) {
-            if (x_ <= 130 and x_ > 0)
-                return true;
-        }
-        else if (IsKeyDown(KEY_D)) {
-            if (x_ < 130 and x_ >= 0)
-                return true;
-        }
-        else if (IsKeyDown(KEY_W)) {
-            if (y_ <= 130 and y_ > 0)
-                return true;
-        }
-        else if (IsKeyDown(KEY_S)) {
-            if (y_ < 130 and y_ >= 0)
-                return true;
-        }
-        return false;
-    }
+    void draw();
+    void DFS(Laberinto& Maze);
+    void GeneratePath(Pi coord);
+    void Botmove(Laberinto & Maze);
+    //overriding unctions
+    void GeneralBehaivor()override;
+    void draw_pathSeeking()override;
+    void BoT_move() override;
+    bool StopTurn() override;
 
-    bool sig_cuadro(Laberinto y){
-        if (IsKeyDown(KEY_A)) {
-            if (y(y_, x_ - 1) == 1)
-                return true;
-        }
-        else if (IsKeyDown(KEY_D)) {
-            if (y(y_, x_ + 1) == 1)
-                return true;
-        }
-        else if (IsKeyDown(KEY_W)) {
-            if (y(y_ - 1, x_) == 1)
-                return true;
-        }
-        else if (IsKeyDown(KEY_S)) {
-            if (y(y_ + 1, x_) == 1)
-                return true;
-        }
-        return false;
-    }
+    bool getTurn() override;
+    void setTurn(bool trn) override;
 
-    bool col_play(Player y){
-        if (IsKeyDown(KEY_A)) {
-            if ((y_ != y.getY() or x_ - 1 != y.getX()) and (x_ - 1 != 10 or y_ != 10))
-                return true;
-        }
-        else if (IsKeyDown(KEY_D)) {
-            if ((y_ != y.getY() or x_ + 1 != y.getX()) and (x_ + 1 != 10 or y_ != 10))
-                return true;
-        }
-        else if (IsKeyDown(KEY_W)) {
-            if ((y_ - 1 != y.getY() or x_ != y.getX()) and (y_ - 1 != 10 or x_ != 10))
-                return true;
-        }
-        else if (IsKeyDown(KEY_S)) {
-            if ((y_ + 1 != y.getY() or x_ != y.getX()) and (y_ + 1 != 10 or x_ != 10))
-                return true;
-        }
-        return false;
-    }
 
-    bool tecla_val(pthread_key_t a){
-        if (a == KEY_A or a == KEY_W or a == KEY_D or a == KEY_S){
-            return true;
-        }
-        return false;
-    }
-
-    void avanz_play(pthread_key_t y){
-        if (y == KEY_A){
-            x_ -= 1;
-        }
-        else if (y == KEY_D){
-            x_ += 1;
-        }
-        else if (y == KEY_W){
-            y_ -= 1;
-        }
-        else if (y == KEY_S){
-            y_ += 1;
-        }
-    }
-
-    int vecinos(Player z, Laberinto y){
-        int total_vec = 0;
-        if (y(y_, x_ + 1) == 1 and (z.getX() != x_ + 1 or z.getY() != y_) and (x_ + 1 != 10 or y_ != 10)){
-            total_vec++;
-        }
-        if (y(y_, x_ - 1) == 1 and (z.getX() != x_ - 1 or z.getY() != y_) and (x_ - 1 != 10 or y_ != 10)){
-            total_vec++;
-        }
-        if (y(y_ + 1, x_) == 1 and (z.getY() != y_ + 1 or z.getX() != x_) and (y_ + 1 != 10 or x_ != 10)){
-            total_vec++;
-        }
-        if (y(y_ - 1, x_) == 1 and (z.getY() != y_ - 1 or z.getX() != x_) and (y_ - 1 != 10 or x_ != 10)){
-            total_vec++;
-        }
-        return total_vec;
-    }
-
-    void movement(Player& t, Laberinto& y, Pi coords, int& trn){
-        while (vecinos(t, y) == 2){
-            if (y(y_ - 1, x_) == 1 and coords.first != y_ - 1 and col_play(t) and vecinos(t, y) < 3){
-                coords.first = y_;
-                coords.second = x_;
-                y_ -= 1;
-                this->DrawPlayer();
-            }
-            else if (y(y_, x_ + 1) == 1 and coords.second != x_ + 1 and col_play(t) and vecinos(t, y) < 3){
-                coords.second = x_;
-                coords.first = y_;
-                x_ += 1;
-                this->DrawPlayer();
-            }
-            else if (y(y_ + 1, x_) == 1 and coords.first != y_ + 1 and col_play(t) and vecinos(t, y) < 3){
-                coords.first = y_;
-                coords.second = x_;
-                y_ += 1;
-                this->DrawPlayer();
-            }
-            else if (y(y_, x_ - 1) == 1 and coords.second != x_ - 1 and col_play(t) and vecinos(t, y) < 3){
-                coords.second = x_;
-                coords.first = y_;
-                x_ -= 1;
-                this->DrawPlayer();
-            }
-            this->DrawPlayer();
-        }
-        if (trn == 1){
-            trn = 2;
-        }
-        else if (trn == 2) {
-            trn = 1;
-        }
-    }
-
-    bool verf_gan(){
-        if ((x_ == 9 and y_ == 10) or (x_ == 11 and y_ == 10) or (x_ == 10 and y_ == 9) or (x_ == 10 and y_ == 11))
-            return true;
-        return false;
-    }
 };
+
+
+enum Type{ BFS_BOT,DFS_BOT};
+class Bot_Factory{
+public:
+    Bot_Factory(Laberinto Mmaze ,Type tipo);
+    GeneralPurpuseBot* Instanciar_Bot();
+
+
+private:
+    Laberinto maze_;
+    GeneralPurpuseBot* new_bot_instantiation;
+};
+
 #endif //MAZE_NA_NO_HA_STRICKER_H
