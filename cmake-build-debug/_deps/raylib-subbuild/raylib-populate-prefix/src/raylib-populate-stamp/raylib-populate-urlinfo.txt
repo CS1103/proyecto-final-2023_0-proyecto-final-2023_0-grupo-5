@@ -3,9 +3,9 @@
 # No other meaning or use of this file is supported.
 
 method=url
-command=C:/Program Files/JetBrains/CLion 2022.2/bin/cmake/win/bin/cmake.exe;-P;C:/Users/Jesus/Desktop/PROGRAMACION III/PROGRA III - LAB/proyecto_maze/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/download-raylib-populate.cmake;COMMAND;C:/Program Files/JetBrains/CLion 2022.2/bin/cmake/win/bin/cmake.exe;-P;C:/Users/Jesus/Desktop/PROGRAMACION III/PROGRA III - LAB/proyecto_maze/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/verify-raylib-populate.cmake;COMMAND;C:/Program Files/JetBrains/CLion 2022.2/bin/cmake/win/bin/cmake.exe;-P;C:/Users/Jesus/Desktop/PROGRAMACION III/PROGRA III - LAB/proyecto_maze/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/extract-raylib-populate.cmake
-source_dir=C:/Users/Jesus/Desktop/PROGRAMACION III/PROGRA III - LAB/proyecto_maze/cmake-build-debug/_deps/raylib-src
-work_dir=C:/Users/Jesus/Desktop/PROGRAMACION III/PROGRA III - LAB/proyecto_maze/cmake-build-debug/_deps
+command=C:/Program Files/JetBrains/CLion 2022.2.4/bin/cmake/win/bin/cmake.exe;-P;D:/Semestre 2023_0_CS/PPPPPPPPP/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/download-raylib-populate.cmake;COMMAND;C:/Program Files/JetBrains/CLion 2022.2.4/bin/cmake/win/bin/cmake.exe;-P;D:/Semestre 2023_0_CS/PPPPPPPPP/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/verify-raylib-populate.cmake;COMMAND;C:/Program Files/JetBrains/CLion 2022.2.4/bin/cmake/win/bin/cmake.exe;-P;D:/Semestre 2023_0_CS/PPPPPPPPP/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/extract-raylib-populate.cmake
+source_dir=D:/Semestre 2023_0_CS/PPPPPPPPP/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-src
+work_dir=D:/Semestre 2023_0_CS/PPPPPPPPP/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps
 url(s)=https://github.com/raysan5/raylib/archive/refs/tags/4.2.0.tar.gz
 hash=
 no_extract=

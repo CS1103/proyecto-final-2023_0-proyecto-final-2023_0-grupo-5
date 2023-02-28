@@ -9,7 +9,7 @@
 #include "iomanip"
 
 using namespace std;
-
+Global Data;
 using Pi = std::pair<int,int>;
 static const int32_t MAX_COUNTER = 5;
 static int32_t counter = MAX_COUNTER;
@@ -66,22 +66,35 @@ void drawMaze2(Maze2 *const maze) {
     else{
         maze->show = true;
         DrawRectangle(maze->target.first * TILE_SIZE_WIDTH, maze->target.first*TILE_SIZE_HEIGHT, TILE_SIZE_WIDTH, TILE_SIZE_HEIGHT, RED);
-        for (int x = 0; x < MAZE_HEIGHT; x++) {
-            for (int y = 0; y < MAZE_WIDTH; y++) {
-                if ((*maze)(y,x)==0) {
-                    DrawRectangle(float(x * TILE_SIZE_WIDTH), float(y * TILE_SIZE_HEIGHT), TILE_SIZE_WIDTH,
-                                  TILE_SIZE_HEIGHT, WHITE);
+        for (int i = 0; i < MAZE_HEIGHT; i++)
+        {
+            for (int j = 0; j < MAZE_WIDTH; j++)
+            {
+                if ((*maze)(i,j) == 0)
+                {
+                    DrawRectangle(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE, DARKGRAY);
                 }
-                if ((*maze)(y,x)==2){
-                    DrawRectangle(float(x * TILE_SIZE_WIDTH), float(y * TILE_SIZE_HEIGHT), TILE_SIZE_WIDTH,
-                                  TILE_SIZE_HEIGHT, PINK);
+                else
+                {
+                    DrawRectangle(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE, WHITE);
                 }
-                if ((*maze)(y,x) == 3){
-                    DrawRectangle(float(x*TILE_SIZE_WIDTH),float(y * TILE_SIZE_HEIGHT),TILE_SIZE_WIDTH, TILE_SIZE_HEIGHT,RED);
+
+                if((*maze)(i,j)==2)
+                {
+                    DrawRectangle(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE, PINK);
+                }
+                if((*maze)(i,j)==3)
+                {
+                    DrawRectangle(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE, PURPLE);
                 }
             }
         }
+
+        DrawRectangle(float(Data.screen_width/2),float(Data.screen_height/2),CELL_SIZE, CELL_SIZE,
+                RED
+        );
     }
+
 
 }
 void backtraking(Maze2& Alfa) {
@@ -178,7 +191,7 @@ Maze2* Maze2::getInstance(int H,int W){
                 (*_inst)(x,y) = 0;
             }
         }
-        _inst->Visited_Coordinates.push({1,1});
+        _inst->Visited_Coordinates.push({(MAZE_HEIGHT%2==0)?0:1,(MAZE_WIDTH%2==0)?0:1});
         cout << _inst->Visited_Coordinates.size() << endl;
     }
     else{
@@ -189,7 +202,7 @@ Maze2* Maze2::getInstance(int H,int W){
             }
         }
         cout << _inst->Visited_Coordinates.size() << endl;
-        _inst->Visited_Coordinates.push({1,1});
+        _inst->Visited_Coordinates.push({(MAZE_HEIGHT%2==0)?0:1,(MAZE_WIDTH%2==0)?0:1});
     }
     return _inst;
 

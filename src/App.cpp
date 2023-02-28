@@ -34,6 +34,7 @@ App *initApp() {
 void runApp(App *const app) {
     PlayMusicStream(globalData.music[globalData.theme]);
     while (!WindowShouldClose() && !finished) {
+        UpdateMusicStream(globalData.music[globalData.theme]);
         app->updateApp();
         app->drawApp();
     }
@@ -55,7 +56,7 @@ void freeApp(App **app) {
 
 
 static void settingApp() {
-    InitWindow(globalData.map_widht, globalData.map_height , "MAZE");
+    InitWindow(globalData.screen_width, globalData.screen_height , "MARISA MAZE");
     HideCursor();
     Image iconKAWAI = LoadImage("../textures/icon_windowscompress.png");
     SetWindowIcon(iconKAWAI);

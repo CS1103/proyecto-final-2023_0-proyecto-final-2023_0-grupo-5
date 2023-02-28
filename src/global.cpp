@@ -8,8 +8,7 @@ void initGlobal(Global *const globalData) {
     globalData->leftSound = LoadSound("../assets/sound/left.wav");
     globalData->rightSound = LoadSound("../assets/sound/right.wav");
     globalData->resetMusic();
-    globalData->map_height = MAP_HEIGHT;
-    globalData->map_widht=MAP_WIDTH;
+
     SetSoundVolume(globalData->leftSound, 1.0);
     SetSoundVolume(globalData->rightSound, 1.0);
 }

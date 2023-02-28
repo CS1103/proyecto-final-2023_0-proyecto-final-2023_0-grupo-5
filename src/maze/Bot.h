@@ -9,6 +9,7 @@
 #include <queue>
 #include <iomanip>
 #include <map>
+#include <set>
 using I = int;
 using Pi = std::pair<int,int>;
 class GeneralPurpuseBot{
@@ -24,8 +25,6 @@ public:
 
 
 class Bot_BFS:public GeneralPurpuseBot{
-
-
 private:
     float x_{};
     float y_{};
@@ -35,21 +34,20 @@ private:
     std::map<Pi,Pi> Path;//needed in DFS(to be included) and BFS
     bool PathAvaliable= false; //needed in DFS(to be included) and BFS
     bool PathReady = false;//needed in DFS(to be included) and BFS
-    Rectangle bot;//General bot atribute
+
     std::stack<Pi> Movement;//needed in DFS(to be included) and BFS
     size_t SearchNumber=0;//needed in DFS(to be included) and BFS
     Maze2 maze;
+    std::set<Pi> Visited;
 public:
 
     Bot_BFS(float x , float y, Maze2& Mmaze):x_(x),y_(y),maze(Mmaze){
         Visited_coords.push({x, y});
-        bot = {x*TILE_SIZE_WIDTH,y*TILE_SIZE_HEIGHT,TILE_SIZE_WIDTH,TILE_SIZE_HEIGHT};
+
         Frontier.push({x,y});//set irst possition as visited
         Target={MAZE_HEIGHT/2,MAZE_WIDTH/2};
         Path[{x,y}]={x,y};//Mark first position as its own root
-
     }
-
     void draw();
     void BFS(Maze2& Maze);
     void GeneratePath(Pi coord);
@@ -66,25 +64,25 @@ class Bot_DFS:public GeneralPurpuseBot{
 private:
     float x_{};
     float y_{};
-
-    std::stack<Pi> visited_cordinates_bot;
     std::stack<Pi>Visited_coords; //needed in DFS and BFS
+    std::queue<std::pair<int , int>> Frontier; // needed in BFS
     Pi Target;      //META -->//needed in DFS and BFS
     std::map<Pi,Pi> Path;//needed in DFS(to be included) and BFS
     bool PathAvaliable= false; //needed in DFS(to be included) and BFS
     bool PathReady = false;//needed in DFS(to be included) and BFS
-    Rectangle bot;//General bot atribute
+
     std::stack<Pi> Movement;//needed in DFS(to be included) and BFS
     size_t SearchNumber=0;//needed in DFS(to be included) and BFS
-    Maze2 maz;
+    Maze2 maze;
+    std::set<Pi> Visited;
 public:
 
-    Bot_DFS(float x , float y, Maze2 Mmaze):x_(x),y_(y),maz(Mmaze){
+    Bot_DFS(float x , float y, Maze2 Mmaze):x_(x),y_(y),maze(Mmaze){
         Visited_coords.push({x, y});
-        //   visited_cordinates_bot.push({1,1}); // Stablishing first coordinate
-        bot = {x*TILE_SIZE_WIDTH,y*TILE_SIZE_HEIGHT,TILE_SIZE_WIDTH,TILE_SIZE_HEIGHT};
+
+        Frontier.push({x,y});//set irst possition as visited
         Target={MAZE_HEIGHT/2,MAZE_WIDTH/2};
-        Path[{x_,y_}]={x_,y_};//Mark first position as its own root
+        Path[{x,y}]={x,y};//Mark first position as its own root
 
     }
 

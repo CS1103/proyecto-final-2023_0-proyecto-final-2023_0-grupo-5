@@ -5,8 +5,8 @@ cmake_minimum_required(VERSION 3.5)
 
 # Make file names absolute:
 #
-get_filename_component(filename "C:/Users/Jesus/Desktop/PROGRAMACION III/PROGRA III - LAB/proyecto_maze/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/4.2.0.tar.gz" ABSOLUTE)
-get_filename_component(directory "C:/Users/Jesus/Desktop/PROGRAMACION III/PROGRA III - LAB/proyecto_maze/cmake-build-debug/_deps/raylib-src" ABSOLUTE)
+get_filename_component(filename "D:/Semestre 2023_0_CS/PPPPPPPPP/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/4.2.0.tar.gz" ABSOLUTE)
+get_filename_component(directory "D:/Semestre 2023_0_CS/PPPPPPPPP/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-src" ABSOLUTE)
 
 message(STATUS "extracting...
      src='${filename}'

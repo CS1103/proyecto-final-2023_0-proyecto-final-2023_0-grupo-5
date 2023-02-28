@@ -14,8 +14,8 @@ project(raylib-populate NONE)
 include(ExternalProject)
 ExternalProject_Add(raylib-populate
                      "UPDATE_DISCONNECTED" "False" "URL" "https://github.com/raysan5/raylib/archive/refs/tags/4.2.0.tar.gz"
-                    SOURCE_DIR          "C:/Users/Jesus/Desktop/PROGRAMACION III/PROGRA III - LAB/proyecto_maze/cmake-build-debug/_deps/raylib-src"
-                    BINARY_DIR          "C:/Users/Jesus/Desktop/PROGRAMACION III/PROGRA III - LAB/proyecto_maze/cmake-build-debug/_deps/raylib-build"
+                    SOURCE_DIR          "D:/Semestre 2023_0_CS/PPPPPPPPP/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-src"
+                    BINARY_DIR          "D:/Semestre 2023_0_CS/PPPPPPPPP/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-build"
                     CONFIGURE_COMMAND   ""
                     BUILD_COMMAND       ""
                     INSTALL_COMMAND     ""

@@ -18,15 +18,20 @@ void Bot_DFS::DFS(Maze2 &Maze) {
             if (Maze(Next.first, Next.second) != 0 and
                 Maze(Next.first, Next.second) != 2 and (Next.first>=0 and Next.first<MAZE_HEIGHT) and ((Next.second>=0 and Next.second<MAZE_WIDTH))){
                 Maze(Next.first,Next.second) = 2;
+                Path[Next]=Visited_coords.top();
                 Visited_coords.push(Next);
+
                 break;
             }tem++;
         }
         if (tem == 4){ Visited_coords.pop();}
+    }else{
+
+        PathAvaliable= true;
     }
 }
 void Bot_DFS::draw() {
-    DrawRectangleRec(bot,PINK);
+
 
 }
 void Bot_DFS::GeneratePath(Pi coord) {
@@ -35,7 +40,7 @@ void Bot_DFS::GeneratePath(Pi coord) {
     if(PathAvaliable  and SearchNumber==0)
     {
         if(Path[coord]!=coord  )
-        {cout<<"ESTA COORDENADA NO ES ROOT-->  ("<<coord.first<<";"<<coord.second<<")"<<endl;
+        {//cout<<"ESTA COORDENADA NO ES ROOT-->  ("<<coord.first<<";"<<coord.second<<")"<<endl;
 
             Movement.push(coord);
             GeneratePath(Path[coord]);
@@ -43,26 +48,56 @@ void Bot_DFS::GeneratePath(Pi coord) {
             Movement.push(coord);
             PathReady= true;
             SearchNumber=1;
-            cout<<"ENTRO A LA VERDAD"<<endl;
+            //cout<<"ENTRO A LA VERDAD"<<endl;
         }
     }
     if(PathReady)
     {
-        cout<<"Bot is heading to Target..."<<endl;
+        //cout<<"Bot is heading to Target..."<<endl;
     }
 
 }
 void Bot_DFS::Botmove(Maze2 &Maze) {
-    if(!Movement.empty()) {
-        Maze(Movement.top().first,Movement.top().second)=3;
+    bool  stop_condition= true;
+    if(IsKeyPressed(KEY_F))
+    {   Visited.insert(Movement.top());
+        Maze(Movement.top().first, Movement.top().second) = 3;
         Movement.pop();
+        stop_condition= true;
+    }
+    if(!Movement.empty() ) {
+        vector<Pi> Cardinals{{0,  1},
+                             {0,  -1},
+                             {-1, 0},
+                             {1,  0}}; // East , West , North and South
+        Pi cur_coord = Movement.top();
+        Visited.insert(Movement.top());
+        int cont = 0;
+
+        for (auto Adder: Cardinals) {
+
+            Pi Next = {cur_coord.first + Adder.first,
+                       cur_coord.second + Adder.second}; // Establish next possible coordinate
+            if (Maze(Next.first, Next.second) != 0 and
+                Visited.find(Next) == Visited.end() and (cur_coord!= make_pair(int(x_),int(y_))))//Check if next is an avaliable neighbor
+            {
+                cont++;
+                if (cont > 1) {
+                    stop_condition = false;
+                    break;
+                }
+            }
+        }
+        if(stop_condition)
+        {Maze(Movement.top().first, Movement.top().second) = 3;
+            Movement.pop();}
     }
 }
 
 void Bot_DFS::GeneralBehaivor() {
-    cout<<"USANDO AL DSDSDS"<<endl;
-    DFS(maz);
-    //GeneratePath(Target);
+
+    DFS(maze);
+    GeneratePath(Target);
 }
 void Bot_DFS::draw_pathSeeking() {
     draw();
@@ -71,12 +106,12 @@ bool Bot_DFS::StopTurn() {
     return false;
 }
 void Bot_DFS::BoT_move() {
-    Botmove(maz);
+    Botmove(maze);
 }
 
 //PARA B
 void Bot_BFS::draw() {
-    DrawRectangleRec(bot,PINK);
+
 
 }
 void Bot_BFS::BFS(Maze2& Maze) {
@@ -132,9 +167,41 @@ void Bot_BFS::GeneratePath(Pi coord) {
 
 }
 void Bot_BFS::BotMove(Maze2 &Maze) {
-    if(!Movement.empty()) {
-        Maze(Movement.top().first,Movement.top().second)=3;
+    bool  stop_condition= true;
+
+    if(IsKeyPressed(KEY_F))
+    {   Visited.insert(Movement.top());
+        Maze(Movement.top().first, Movement.top().second) = 3;
         Movement.pop();
+        stop_condition= true;
+    }
+
+    if(!Movement.empty() ) {
+        vector<Pi> Cardinals{{0,  1},
+                             {0,  -1},
+                             {-1, 0},
+                             {1,  0}}; // East , West , North and South
+        Pi cur_coord = Movement.top();
+        Visited.insert(Movement.top());
+        int cont = 0;
+
+        for (auto Adder: Cardinals) {
+
+            Pi Next = {cur_coord.first + Adder.first,
+                       cur_coord.second + Adder.second}; // Establish next possible coordinate
+            if (Maze(Next.first, Next.second) != 0 and
+                Visited.find(Next) == Visited.end() and (cur_coord!= make_pair(int(x_),int(y_))))//Check if next is an avaliable neighbor
+            {
+                cont++;
+                if (cont > 1) {
+                    stop_condition = false;
+                    break;
+                }
+            }
+        }
+        if(stop_condition)
+        {Maze(Movement.top().first, Movement.top().second) = 3;
+            Movement.pop();}
     }
 }
 

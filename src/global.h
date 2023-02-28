@@ -10,8 +10,10 @@
 #define MAP_HEIGHT 1000
 #define TILE_SIZE_WIDTH  9     //tamaño de cuadrado
 #define TILE_SIZE_HEIGHT  8
-#define MAZE_WIDTH 125
-#define MAZE_HEIGHT 125
+#define MAZE_WIDTH 42
+#define MAZE_HEIGHT 30
+#define CELL_SIZE 20
+
 
 
 const static int32_t GL_MIN_PTO = 2;
@@ -64,8 +66,8 @@ typedef struct Global {
     Sound leftSound;
     Sound rightSound;
     std::vector<Music> music;
-    int map_widht;
-    int map_height;
+    int screen_width = MAZE_WIDTH * CELL_SIZE;
+    int screen_height = MAZE_HEIGHT * CELL_SIZE;
     int widht_window;
     int height_window;
     void resetMusic();
