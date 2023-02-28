@@ -6,7 +6,7 @@ static bool finished = false;
 using namespace std;
 #include "Game.h"
 Game* initGame(){
-    cout << "INICIALIZO GAME";
+    cout << "INICIALIZO GAME MAZE";
     resetValues();
     Game* juego = new Game;
     juego->maze2 = initBoard();
