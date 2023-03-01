@@ -210,16 +210,20 @@ los "1" son las casillas por donde se puede mover, y los "0" son paredes.
 
 ### Diagrama de clases
 
+![Diagrama](extra/UML.jpg)
+
 ## Link del video
+
+[https://www.youtube.com/watch?v=pfzdqTRV0DI&ab_channel=MUSIC4MIND](https://www.youtube.com/watch?v=pfzdqTRV0DI&ab_channel=MUSIC4MIND)
 
 ## Autores
 
-- Nombre genérico 1
+- Benjamin Soto Mayta
+- Fabricio Chavez Balarezo
+- Fabrizzio Vilchez Espinoza
 - Jesus Egusquiza Ore
 - Sebastian Rodriguez Herrera
-- Fabricio Chavez Balarezo
-- Benjamin Soto Mayta
-- Fabrizzio Vilchez Espinoza
+- Rodrigo León Chumpitaz
 
 ## Referencias
 
