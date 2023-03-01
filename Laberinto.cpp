@@ -54,11 +54,72 @@ void backtraking(Laberinto& Alfa) {  // Implementation of Recursive Backtraking
             backtraking(Alfa);
         }
 
-    }else{
+    }
+
+    else{
         std::cout<<"MAZE SUCCESFULLY GENERATED !!!";
     }
 
 }
+
+/*
+
+Laberinto::Laberinto(const Laberinto &other) {
+
+    this->maze2 = new int[MAZE_HEIGHT*MAZE_WIDTH];
+
+    for (int i = 0; i < MAZE_WIDTH*MAZE_HEIGHT; ++i) {
+        this->maze2[i] = other.maze2[i];
+    }
+    this->Visited_Coordinates = other.Visited_Coordinates;
+}
+
+Laberinto::Laberinto(Laberinto &&other) noexcept{
+
+    this->maze2 = other.maze2;
+
+    other.maze2 = nullptr;
+}
+
+Laberinto& Laberinto::operator=( const Laberinto &other)  {
+        if(this  == &other){
+            return *this;
+        }
+
+        delete[] maze2;
+
+
+        maze2 = new int[MAZE_WIDTH*MAZE_HEIGHT];
+
+        for (int i = 0; i < MAZE_WIDTH*MAZE_HEIGHT; ++i) {
+            this->maze2[i] = other.maze2[i];
+        }
+
+
+        return *this;
+}
+
+Laberinto &Laberinto::operator=(Laberinto &&other) noexcept {
+    if(this  == &other){
+        return *this;
+    }
+
+    delete[] maze2;
+
+    this->maze2 = other.maze2;
+
+    this->Visited_Coordinates = other.Visited_Coordinates;
+
+
+    other.maze2 = nullptr;
+
+    return *this;
+}
+
+Laberinto::~Laberinto() {
+    delete [] maze2;
+}
+*/
 
 void DrawMaze(Laberinto & maze)
 {
@@ -70,14 +131,13 @@ void DrawMaze(Laberinto & maze)
             {
                 DrawRectangle(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE, DARKGRAY);
             }
-            else
-            {
+            if (maze(i,j) == 1){
                 DrawRectangle(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE, WHITE);
             }
 
             if(maze(i,j)==2)
             {
-                DrawRectangle(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE, PINK);
+                DrawRectangle(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE, WHITE);
             }
             if(maze(i,j)==3)
             {
@@ -87,6 +147,10 @@ void DrawMaze(Laberinto & maze)
             if(maze(i,j)==4)
             {
                 DrawRectangle(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE, BLUE);
+            }
+            if(maze(i,j)==5)
+            {
+                DrawRectangle(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE, GREEN);
             }
 
         }

@@ -5,13 +5,15 @@
 #include <iomanip>
 using namespace std;
 int main() {
-
     Laberinto A;
 
     srand(time(nullptr));
 
 
-    Player*  AEE =   new Player_letras(MAZE_WIDTH - 2, MAZE_HEIGHT - 2 , BLUE);
+
+    Player* player2 = new Player_letras(2,2 , BLUE, 4);
+
+    Player* player1 = new Player_flechas(MAZE_WIDTH -2, MAZE_HEIGHT - 2 , BLUE, 5);
 
 
 
@@ -33,16 +35,22 @@ int main() {
     A(TargetX+1,TargetY)=1;
 
 
-    auto Robot = new Bot_BFS(1,1 , A);
-    Player* adapter = new Adapter_Bot_Player(Robot);
-    //adapter->movement(A , make_pair(0,0));
 
+
+
+    for(int i = 0; i< MAZE_HEIGHT ; i++){
+        for(int j = 0; j< MAZE_WIDTH ; j++){
+            cout<<setw(3)<<A(i,j)<<" ";
+        }
+
+        cout<<"\n";
+    }
 
     Texture2D block_ = LoadTexture(R"(..\assets\block_.png)");
     Texture2D finish = LoadTexture(R"(..\assets\META1.png)");
     Music soundtrack = LoadMusicStream(R"(..\assets\BOCCHIGOD.mp3)");
     PlayMusicStream(soundtrack);
-    //adapter->movement(A , make_pair(0,0));
+
 
 
     while (!WindowShouldClose()) {
@@ -56,7 +64,6 @@ int main() {
 
         ClearBackground(BLACK);
         DrawMaze(A);
-        AEE->paint_path(A);
 
         DrawTextureRec(
                 finish,
@@ -64,12 +71,19 @@ int main() {
                 Vector2{float(screen_width/2),float(screen_height/2)},
                 WHITE
         );
-        AEE->setTurn(true);
-        // adapter->smart_movement(A,  AEE);
-        AEE->smart_movement(A , adapter);
+
+        player1->smart_movement(A , player2);
+        player2->smart_movement(A, player1);
+
+        player2->paint_path(A);
+        player1->paint_path(A);
+
+        player1->DrawPlayer();
+        player2->DrawPlayer();
         auto window = !WindowShouldClose();
         GetFPS();
         EndDrawing();
+
     }
     UnloadMusicStream(soundtrack);   // Unload music stream buffers from RAM
     CloseAudioDevice();

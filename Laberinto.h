@@ -31,6 +31,11 @@ public:
 
     }
 
+    //Laberinto(const Laberinto& other);
+
+    //Laberinto( Laberinto&& other) noexcept;
+
+
     [[nodiscard]] int *getMaze2() const {
         return maze2;
     }
@@ -38,6 +43,12 @@ public:
     [[nodiscard]] const std::stack<std::pair<I, I>> &getVisitedCoordinates() const {
         return Visited_Coordinates;
     }
+
+
+    //Laberinto& operator=(const Laberinto& other) ;
+   // Laberinto& operator=( Laberinto&& other)  noexcept;
+
+   // virtual ~Laberinto();
 
     I &operator()(int i_row, int i_col);
     I operator()(int i_row, int i_col) const;

@@ -63,8 +63,6 @@ public:
 
 };
 class Bot_DFS:public GeneralPurpuseBot{
-
-
 private:
     float x_{};
     float y_{};

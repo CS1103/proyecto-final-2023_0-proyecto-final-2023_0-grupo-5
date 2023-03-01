@@ -14,19 +14,19 @@ public:
     [[nodiscard]] virtual int getX() = 0;
     [[nodiscard]] virtual int getY() = 0;
 
-    virtual bool no_salga(pthread_key_t y) = 0;
 
-    virtual bool sig_cuadrado(Laberinto& y, pthread_key_t z) = 0;
 
-    virtual bool tecla_val(pthread_key_t a) = 0;
+    virtual bool sig_cuadrado(Laberinto& y) = 0;
 
-    virtual void avanz_play(pthread_key_t y) = 0;
+    virtual bool tecla_val() = 0;
 
-    virtual int vecinos(Laberinto& y) = 0;
+    virtual void avanz_play() = 0;
 
-    virtual bool col_play(Laberinto& y, pthread_key_t z) = 0;
+    virtual int vecinos(Laberinto& y, Player* player) = 0;
 
-    virtual void movement(Laberinto& y, Pi coords, pthread_key_t z) = 0;
+    virtual bool col_play(Player* player) = 0;
+
+    virtual void movement( Player* player, Laberinto& y, Pi coords) = 0;
 
     virtual void smart_movement(Laberinto& y ,  Player* player) = 0;
 
@@ -36,6 +36,8 @@ public:
 
     virtual void setTurn(bool trn) = 0;
 
+    virtual void DrawPlayer() = 0;
+
 };
 
 class Player_letras: public Player{
@@ -43,38 +45,37 @@ private:
     int x_;
     int y_;
     Color color_;
+    int color_pint;
     bool turn = false;
 public:
-    Player_letras(int x, int y, const Color &color);
+    Player_letras(int x, int y, const Color &color, int _color_pint);
 
-    int getX();
+    int getX() override;
 
-    int getY();
+    int getY() override;
 
 
     virtual ~Player_letras();
 
-    bool no_salga(pthread_key_t y) override;
+    bool sig_cuadrado(Laberinto& y) override;
 
-    bool sig_cuadrado(Laberinto& y, pthread_key_t z) override;
+    bool tecla_val() override;
 
-    bool tecla_val(pthread_key_t a) override;
+    void avanz_play() override;
 
-    void avanz_play(pthread_key_t y) override;
+    int vecinos(Laberinto& y , Player* player) override;
 
-    int vecinos(Laberinto& y) override;
+    bool col_play(Player* player) override;
 
-    bool col_play(Laberinto& y, pthread_key_t z) override;
-
-    void movement(Laberinto &y, Pi coords, pthread_key_t z) override;
+    void movement( Player* player   ,Laberinto &y, Pi coords) override;
 
     void smart_movement(Laberinto& y, Player* player) override;
 
-    bool getTurn();
+    bool getTurn() override;
 
-    void setTurn(bool trn);
+    void setTurn(bool trn) override;
 
-
+    void DrawPlayer() override;
 
     void paint_path(Laberinto &y) override;
 
@@ -85,9 +86,12 @@ private:
     int x_;
     int y_;
     Color color_;
+    int color_pint;
     bool turn = false;
 public:
-    Player_flechas(int x, int y, const Color &color);
+    void DrawPlayer() override;
+
+    Player_flechas(int x, int y, const Color &color, int _color_pint);
 
     virtual ~Player_flechas();
 
@@ -95,19 +99,19 @@ public:
 
     int getY() override;
 
-    bool no_salga(pthread_key_t y) override;
 
-    bool sig_cuadrado(Laberinto& y, pthread_key_t z) override;
 
-    bool tecla_val(pthread_key_t a) override;
+    bool sig_cuadrado(Laberinto& y) override;
 
-    void avanz_play(pthread_key_t y) override;
+    bool tecla_val() override;
 
-    int vecinos(Laberinto& y) override;
+    void avanz_play() override;
 
-    bool col_play(Laberinto& y, pthread_key_t z) override;
+    int vecinos(Laberinto& y, Player* player) override;
 
-    void movement(Laberinto &y, Pi coords, pthread_key_t z) override;
+    bool col_play( Player* player) override;
+
+    void movement(Player* player , Laberinto &y, Pi coords) override;
 
     void smart_movement(Laberinto& y, Player* player) override;
 
@@ -136,20 +140,19 @@ public:
     int getY() override;
 
 
+    void DrawPlayer() override;
 
-    bool no_salga(pthread_key_t y) override;
+    bool sig_cuadrado(Laberinto &y) override;
 
-    bool sig_cuadrado(Laberinto &y, pthread_key_t z) override;
+    bool tecla_val() override;
 
-    bool tecla_val(pthread_key_t a) override;
+    void avanz_play() override;
 
-    void avanz_play(pthread_key_t y) override;
+    int vecinos(Laberinto &y , Player* player) override;
 
-    int vecinos(Laberinto &y) override;
+    bool col_play( Player* player) override;
 
-    bool col_play(Laberinto &y, pthread_key_t z) override;
-
-    void movement(Laberinto &y, Pi coords, pthread_key_t z) override;
+    void movement( Player* player  ,Laberinto &y, Pi coords) override;
 
     void paint_path(Laberinto &y) override;
 

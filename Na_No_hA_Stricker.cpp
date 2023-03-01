@@ -26,7 +26,6 @@ void Bot_DFS::DFS(Laberinto &Maze) {
 
 void Bot_DFS::draw() {
     DrawRectangleRec(bot,PINK);
-
 }
 
 

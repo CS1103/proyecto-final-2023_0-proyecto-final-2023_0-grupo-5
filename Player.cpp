@@ -2,48 +2,20 @@
 
 
 
-Player::~Player() {
+Player::~Player() {}
 
-}
-
-
-Player_letras::Player_letras(int x, int y, const Color &color)  {
+Player_letras::Player_letras(int x, int y, const Color &color, int _color_pint)  {
     x_ = x;
     y_ = y;
     color_ = color;
+    color_pint = _color_pint;
 }
 
 Player_letras::~Player_letras() {
 
 }
 
-int Player_letras::getX() {
-    return x_;
-}
 
-int Player_letras::getY() {
-    return y_;
-}
-
-bool Player_letras::no_salga(pthread_key_t y) {
-    if (y == KEY_A) {
-        if (x_ <= MAZE_WIDTH and x_ >= 0)
-            return true;
-    }
-    else if (y == KEY_D) {
-        if (x_ <= MAZE_WIDTH and x_ >= 0)
-            return true;
-    }
-    else if (y == KEY_W) {
-        if (y_ <= MAZE_HEIGHT and y_ >= 0)
-            return true;
-    }
-    else if (y == KEY_S) {
-        if (y_ <= MAZE_HEIGHT and y_ >= 0)
-            return true;
-    }
-    return false;
-}
 
 
 
@@ -55,109 +27,124 @@ void Player_letras::setTurn(bool trn) {
     turn = trn;
 }
 
+
+
+void Player_letras::paint_path(Laberinto &y) {
+    if (y(y_,x_) != color_pint)
+        y(y_,x_) = color_pint;
+    else if (y(y_,x_) == color_pint)
+        y(y_,x_) = 1;
+}
+
+void Player_letras::DrawPlayer() {
+    DrawRectangle(x_ * CELL_SIZE, y_ * CELL_SIZE, CELL_SIZE, CELL_SIZE, BLUE);
+}
+
 bool Player_letras::sig_cuadrado(Laberinto &y, pthread_key_t z) {
-    if (z == KEY_A) {
+    if (IsKeyDown(KEY_A)) {
         if (y(y_, x_ - 1) != 0)
             return true;
     }
-    else if (z == KEY_D) {
+    else if (IsKeyDown(KEY_D)) {
         if (y(y_, x_ + 1) != 0)
             return true;
     }
-    else if (z == KEY_W) {
+    else if (IsKeyDown(KEY_W)) {
         if (y(y_ - 1, x_) != 0)
             return true;
     }
-    else if (z == KEY_S) {
+    else if (IsKeyDown(KEY_S)) {
         if (y(y_ + 1, x_) != 0)
             return true;
     }
     return false;
 }
 
-bool Player_letras::tecla_val(pthread_key_t a) {
-    if (a == KEY_A or a == KEY_W or a == KEY_D or a == KEY_S){
+bool Player_letras::tecla_val() {
+    if (IsKeyDown(KEY_A) or IsKeyDown(KEY_W) or IsKeyDown(KEY_D) or IsKeyDown(KEY_S)){
         return true;
     }
     return false;
 }
 
-void Player_letras::avanz_play(pthread_key_t y) {
-    if (y == KEY_A){
+void Player_letras::avanz_play() {
+    if (IsKeyDown(KEY_A)){
         x_ -= 1;
     }
-    else if (y == KEY_D){
+    else if (IsKeyDown(KEY_D)){
         x_ += 1;
     }
-    else if (y == KEY_W){
+    else if (IsKeyDown(KEY_W)){
         y_ -= 1;
     }
-    else if (y == KEY_S){
+    else if (IsKeyDown(KEY_S)){
         y_ += 1;
     }
 }
 
-int Player_letras::vecinos(Laberinto& y) {
+int Player_letras::vecinos(Laberinto &y, Player *player) {
     int total_vec = 0;
-    if (y(y_, x_ + 1) != 0 and (y(y_, x_ + 1) != 100) and (x_ + 1 != MAZE_HEIGHT / 2 or y_ != MAZE_WIDTH / 2)){
+    if (y(y_, x_ + 1) != 0 and (player->getX() != x_ + 1 or player->getY() != y_) and (x_ + 1 != MAZE_HEIGHT / 2 or y_ != MAZE_WIDTH / 2)){
         total_vec++;
     }
-    if (y(y_, x_ - 1) != 0 and (y(y_, x_ - 1) != 100) and (x_ - 1 != MAZE_HEIGHT / 2 or y_ != MAZE_WIDTH / 2)){
+    if (y(y_, x_ - 1) != 0 and (player->getX() != x_ - 1 or player->getY() != y_) and (x_ - 1 != MAZE_HEIGHT / 2 or y_ != MAZE_WIDTH / 2)){
         total_vec++;
     }
-    if (y(y_ + 1, x_) != 0 and (y(y_ + 1, x_) != 100) and (y_ + 1 != MAZE_WIDTH / 2 or x_ != MAZE_HEIGHT / 2)){
+    if (y(y_ + 1, x_) != 0 and (player->getY() != y_ + 1 or player->getX() != x_) and (y_ + 1 != MAZE_WIDTH / 2 or x_ != MAZE_HEIGHT / 2)){
         total_vec++;
     }
-    if (y(y_ - 1, x_) != 0 and (y(y_ - 1, x_) != 100) and (y_ - 1 != MAZE_WIDTH / 2 or x_ != MAZE_HEIGHT / 2)){
+    if (y(y_ - 1, x_) != 0 and (player->getY() != y_ - 1 or player->getX() != x_) and (y_ - 1 != MAZE_WIDTH / 2 or x_ != MAZE_HEIGHT / 2)){
         total_vec++;
     }
     return total_vec;
 }
 
-bool Player_letras::col_play(Laberinto& y, pthread_key_t z) {
-    if (z == KEY_D) {
-        if ((y(y_, x_ + 1) != 100) and (x_ + 1 != MAZE_HEIGHT / 2 or y_ != MAZE_WIDTH / 2))
+bool Player_letras::col_play(Player *player) {
+    if (IsKeyDown(KEY_A)) {
+        if ((y_ != player->getY() or x_ - 1 != player->getX()) and (x_ - 1 != MAZE_HEIGHT / 2 or y_ != MAZE_WIDTH / 2))
             return true;
     }
-    else if (z == KEY_A) {
-        if ((y(y_, x_ - 1) != 100) and (x_ - 1 != MAZE_HEIGHT / 2 or y_ != MAZE_WIDTH / 2))
+    else if (IsKeyDown(KEY_D)) {
+        if ((y_ != player->getY() or x_ + 1 != player->getX()) and (x_ + 1 != MAZE_HEIGHT / 2 or y_ != MAZE_WIDTH / 2))
             return true;
     }
-    else if (z == KEY_W) {
-        if ((y(y_ - 1, x_) != 100) and (y_ - 1 != MAZE_WIDTH / 2 or x_ != MAZE_HEIGHT / 2))
+    else if (IsKeyDown(KEY_W)) {
+        if ((y_ - 1 != player->getY() or x_ != player->getX()) and (y_ - 1 != MAZE_WIDTH / 2 or x_ != MAZE_HEIGHT / 2))
             return true;
     }
-    else if (z == KEY_S) {
-        if ((y(y_ + 1, x_) != 100) and (y_ + 1 != MAZE_WIDTH / 2 or x_ != MAZE_HEIGHT / 2))
+    else if (IsKeyDown(KEY_S)) {
+        if ((y_ + 1 != player->getY() or x_ != player->getX()) and (y_ + 1 != MAZE_WIDTH / 2 or x_ != MAZE_HEIGHT / 2))
             return true;
     }
     return false;
 }
 
-void Player_letras::movement(Laberinto &y, Pi coords, pthread_key_t z) {
-    while (vecinos(y) == 2){
-        if (y(y_ - 1, x_) != 0 and coords.first != y_ - 1 and col_play(y, z) and vecinos(y) < 3){
+void Player_letras::movement(Player *player, Laberinto &y, Pi coords) {
+    while (vecinos(y, player) == 2){
+        if (y(y_ - 1, x_) != 0 and coords.first != y_ - 1 and col_play(player)){
             coords.first = y_;
             coords.second = x_;
             y_ -= 1;
             paint_path(y);
 
         }
-        else if (y(y_, x_ + 1) != 0 and coords.second != x_ + 1 and col_play(y, z) and vecinos(y) < 3){
+        else if (y(y_, x_ + 1) != 0 and coords.second != x_ + 1 and col_play(player)){
             coords.second = x_;
             coords.first = y_;
             x_ += 1;
             paint_path(y);
 
+
         }
-        else if (y(y_ + 1, x_) != 0 and coords.first != y_ + 1 and col_play(y, z) and vecinos(y) < 3){
+        else if (y(y_ + 1, x_) != 0 and coords.first != y_ + 1 and col_play(player)){
             coords.first = y_;
             coords.second = x_;
             y_ += 1;
             paint_path(y);
 
+
         }
-        else if (y(y_, x_ - 1) != 0 and coords.second != x_ - 1 and col_play(y, z) and vecinos(y) < 3){
+        else if (y(y_, x_ - 1) != 0 and coords.second != x_ - 1 and col_play(player)){
             coords.second = x_;
             coords.first = y_;
             x_ -= 1;
@@ -167,102 +154,91 @@ void Player_letras::movement(Laberinto &y, Pi coords, pthread_key_t z) {
     }
 }
 
-void Player_letras::smart_movement(Laberinto& y, Player* player) {
+void Player_letras::smart_movement(Laberinto &y, Player *player) {
 
-    if (IsKeyPressed(KEY_ENTER)) {
+    if (IsKeyDown(KEY_T)){
         player->setTurn(true);
     }
-    pthread_key_t z;
-    z = GetKeyPressed();
-    std::pair<int, int> coords_ac{y_, x_};
-    if (tecla_val(z) and no_salga(z) and sig_cuadrado(y, z) and col_play(y, z) and turn) {
-        y(y_, x_) = 1;
-        avanz_play(z);
+    std::pair<int,int> coords_ac {y_,x_};
+    if (tecla_val()  and sig_cuadrado(y) and col_play(player) and turn)
+    {
+        avanz_play();
         paint_path(y);
-
-        movement(y, coords_ac, z);
-        y(y_, x_) = 100;
-
+        DrawPlayer();
+        movement( player ,y, coords_ac);
+        DrawPlayer();
         turn = !turn;
     }
 }
 
-void Player_letras::paint_path(Laberinto &y) {
-    if (y(y_,x_) != 4)
-        y(y_,x_) = 4;
-    else if (y(y_,x_) == 4)
-        y(y_,x_) = 1;
+
+int Player_letras::getX() {
+    return x_;
+}
+
+int Player_letras::getY() {
+    return y_;
 }
 
 
-Player_flechas::Player_flechas(int x, int y, const Color &color)  {
+
+
+
+
+//Player Flechas
+
+
+Player_flechas::Player_flechas(int x, int y, const Color &color, int _color_pint)  {
     x_ = x;
     y_  = y;
     color_ = color;
+    color_pint = _color_pint;
 }
 
 Player_flechas::~Player_flechas() {
 
 }
 
-bool Player_flechas::no_salga(pthread_key_t y) {
-    if (y == KEY_LEFT) {
-        if (x_ <= MAZE_WIDTH and x_ >= 0)
-            return true;
-    }
-    else if (y == KEY_RIGHT) {
-        if (x_ <= MAZE_WIDTH and x_ >= 0)
-            return true;
-    }
-    else if (y == KEY_UP) {
-        if (y_ <= MAZE_HEIGHT and y_ >= 0)
-            return true;
-    }
-    else if (y == KEY_DOWN) {
-        if (y_ <= MAZE_HEIGHT and y_ >= 0)
-            return true;
-    }
-    return false;
-}
 
-bool Player_flechas::sig_cuadrado(Laberinto& y, pthread_key_t z) {
-    if (z == KEY_LEFT) {
+
+bool Player_flechas::sig_cuadrado(Laberinto& y) {
+    if (IsKeyDown(KEY_LEFT)) {
         if (y(y_, x_ - 1) != 0)
             return true;
     }
-    else if (z == KEY_RIGHT) {
+    else if (IsKeyDown(KEY_RIGHT)) {
         if (y(y_, x_ + 1) != 0)
             return true;
     }
-    else if (z == KEY_UP) {
+    else if (IsKeyDown(KEY_UP)) {
         if (y(y_ - 1, x_) != 0)
             return true;
     }
-    else if (z == KEY_DOWN) {
+    else if (IsKeyDown(KEY_DOWN)) {
         if (y(y_ + 1, x_) != 0)
             return true;
     }
     return false;
 }
 
-bool Player_flechas::tecla_val(pthread_key_t a) {
-    if (a == KEY_LEFT or a == KEY_UP or a == KEY_RIGHT or a == KEY_DOWN){
+bool Player_flechas::tecla_val() {
+    if (IsKeyDown(KEY_LEFT) or IsKeyDown(KEY_UP) or IsKeyDown(KEY_RIGHT) or IsKeyDown(KEY_DOWN)){
         return true;
     }
     return false;
 }
 
-void Player_flechas::avanz_play(pthread_key_t y) {
-    if (y == KEY_LEFT){
+void Player_flechas::avanz_play() {
+    if (IsKeyDown(KEY_LEFT)){
         x_ -= 1;
     }
-    else if (y == KEY_RIGHT){
+    else if (IsKeyDown(KEY_RIGHT)){
         x_ += 1;
     }
-    else if (y == KEY_UP){
+    else if (IsKeyDown(KEY_UP)){
         y_ -= 1;
     }
-    else if (y == KEY_DOWN){
+    else if (IsKeyDown(KEY_DOWN)){
         y_ += 1;
     }
 }
@@ -275,67 +251,69 @@ int Player_flechas::getY() {
     return y_;
 }
 
-int Player_flechas::vecinos(Laberinto& y) {
+int Player_flechas::vecinos(Laberinto& y, Player* player) {
     int total_vec = 0;
-    if (y(y_, x_ + 1) != 0 and (y(y_, x_ + 1) != 100) and (x_ + 1 != MAZE_HEIGHT / 2 or y_ != MAZE_WIDTH / 2)){
+    if (y(y_, x_ + 1) != 0 and (player->getX() != x_ + 1 or player->getY() != y_) and (x_ + 1 != MAZE_HEIGHT / 2 or y_ != MAZE_WIDTH / 2)){
         total_vec++;
     }
-    if (y(y_, x_ - 1) != 0 and (y(y_, x_ - 1) != 100) and (x_ - 1 != MAZE_HEIGHT / 2 or y_ != MAZE_WIDTH / 2)){
+    if (y(y_, x_ - 1) != 0 and (player->getX() != x_ - 1 or player->getY() != y_) and (x_ - 1 != MAZE_HEIGHT / 2 or y_ != MAZE_WIDTH / 2)){
         total_vec++;
     }
-    if (y(y_ + 1, x_) != 0 and (y(y_ + 1, x_) != 100) and (y_ + 1 != MAZE_WIDTH / 2 or x_ != MAZE_HEIGHT / 2)){
+    if (y(y_ + 1, x_) != 0 and (player->getY() != y_ + 1 or player->getX() != x_) and (y_ + 1 != MAZE_WIDTH / 2 or x_ != MAZE_HEIGHT / 2)){
         total_vec++;
     }
-    if (y(y_ - 1, x_) != 0 and (y(y_ - 1, x_) != 100) and (y_ - 1 != MAZE_WIDTH / 2 or x_ != MAZE_HEIGHT / 2)){
+    if (y(y_ - 1, x_) != 0 and (player->getY() != y_ - 1 or player->getX() != x_) and (y_ - 1 != MAZE_WIDTH / 2 or x_ != MAZE_HEIGHT / 2)){
         total_vec++;
     }
     return total_vec;
 }
 
-bool Player_flechas::col_play(Laberinto& y, pthread_key_t z) {
-    if (z == KEY_RIGHT) {
-        if ((y(y_, x_ + 1) != 100) and (x_ + 1 != MAZE_HEIGHT / 2 or y_ != MAZE_WIDTH / 2))
+bool Player_flechas::col_play( Player* player) {
+    if (IsKeyDown(KEY_LEFT)) {
+        if ((y_ != player->getY() or x_ - 1 != player->getX()) and (x_ - 1 != MAZE_HEIGHT / 2 or y_ != MAZE_WIDTH / 2))
             return true;
     }
-    else if (z == KEY_LEFT) {
-        if ((y(y_, x_ - 1) != 100) and (x_ - 1 != MAZE_HEIGHT / 2 or y_ != MAZE_WIDTH / 2))
+    else if (IsKeyDown(KEY_RIGHT)) {
+        if ((y_ != player->getY() or x_ + 1 != player->getX()) and (x_ + 1 != MAZE_HEIGHT / 2 or y_ != MAZE_WIDTH / 2))
             return true;
     }
-    else if (z == KEY_UP) {
-        if ((y(y_ - 1, x_) != 100) and (y_ - 1 != MAZE_WIDTH / 2 or x_ != MAZE_HEIGHT / 2))
+    else if (IsKeyDown(KEY_UP)) {
+        if ((y_ - 1 != player->getY() or x_ != player->getX()) and (y_ - 1 != MAZE_WIDTH / 2 or x_ != MAZE_HEIGHT / 2))
             return true;
     }
-    else if (z == KEY_DOWN) {
-        if ((y(y_ + 1, x_) != 100) and (y_ + 1 != MAZE_WIDTH / 2 or x_ != MAZE_HEIGHT / 2))
+    else if (IsKeyDown(KEY_DOWN)) {
+        if ((y_ + 1 != player->getY() or x_ != player->getX()) and (y_ + 1 != MAZE_WIDTH / 2 or x_ != MAZE_HEIGHT / 2))
             return true;
     }
     return false;
 }
 
-void Player_flechas::movement(Laberinto &y, Pi coords, pthread_key_t z) {
-    while (vecinos(y) == 2){
-        if (y(y_ - 1, x_) != 0 and coords.first != y_ - 1 and col_play(y, z) and vecinos(y) < 3){
+void Player_flechas::movement(Player* player,Laberinto &y, Pi coords) {
+    while (vecinos(y, player) == 2){
+        if (y(y_ - 1, x_) != 0 and coords.first != y_ - 1 and col_play(player)){
             coords.first = y_;
             coords.second = x_;
             y_ -= 1;
             paint_path(y);
 
         }
-        else if (y(y_, x_ + 1) != 0 and coords.second != x_ + 1 and col_play(y, z) and vecinos(y) < 3){
+        else if (y(y_, x_ + 1) != 0 and coords.second != x_ + 1 and col_play(player)){
             coords.second = x_;
             coords.first = y_;
             x_ += 1;
             paint_path(y);
 
+
         }
-        else if (y(y_ + 1, x_) != 0 and coords.first != y_ + 1 and col_play(y, z) and vecinos(y) < 3){
+        else if (y(y_ + 1, x_) != 0 and coords.first != y_ + 1 and col_play(player)){
             coords.first = y_;
             coords.second = x_;
             y_ += 1;
             paint_path(y);
 
+
         }
-        else if (y(y_, x_ - 1) != 0 and coords.second != x_ - 1 and col_play(y, z) and vecinos(y) < 3){
+        else if (y(y_, x_ - 1) != 0 and coords.second != x_ - 1 and col_play(player)){
             coords.second = x_;
             coords.first = y_;
             x_ -= 1;
@@ -343,25 +321,24 @@ void Player_flechas::movement(Laberinto &y, Pi coords, pthread_key_t z) {
 
         }
 
+
     }
 }
 
 void Player_flechas::smart_movement(Laberinto& y, Player* player) {
 
-    if (IsKeyPressed(KEY_ENTER)) {
+    if (IsKeyDown(KEY_ENTER)){
         player->setTurn(true);
     }
-    pthread_key_t z;
-    z = GetKeyPressed();
-    std::pair<int, int> coords_ac{y_, x_};
-    if (tecla_val(z) and no_salga(z) and sig_cuadrado(y, z) and col_play(y, z) and turn) {
-        y(y_, x_) = 1;
-        avanz_play(z);
+
+    std::pair<int,int> coords_ac {y_,x_};
+    if (tecla_val()  and sig_cuadrado(y) and col_play(player) and turn)
+    {
+        avanz_play();
         paint_path(y);
-
-        movement(y, coords_ac, z);
-        y(y_, x_) = 100;
-
+        DrawPlayer();
+        movement( player ,y, coords_ac);
+        DrawPlayer();
         turn = !turn;
     }
 }
@@ -370,15 +347,21 @@ bool Player_flechas::getTurn() {
     return turn;
 }
 
+
+
 void Player_flechas::setTurn(bool trn) {
     turn = trn;
 }
 
 void Player_flechas::paint_path(Laberinto &y) {
-    if (y(y_,x_) != 4)
-        y(y_,x_) = 4;
-    else if (y(y_,x_) == 4)
+    if (y(y_,x_) != color_pint)
+        y(y_,x_) = color_pint;
+    else if (y(y_,x_) == color_pint)
         y(y_,x_) = 1;
+}
+
+void Player_flechas::DrawPlayer() {
+    DrawRectangle(x_ * CELL_SIZE, y_ * CELL_SIZE, CELL_SIZE, CELL_SIZE, GREEN);
 }
 
 
@@ -408,34 +391,35 @@ int Adapter_Bot_Player::getY() {
 }
 
 
-bool Adapter_Bot_Player::no_salga(pthread_key_t y) {
+
+bool Adapter_Bot_Player::sig_cuadrado(Laberinto &y) {
     return false;
 }
 
-bool Adapter_Bot_Player::sig_cuadrado(Laberinto &y, pthread_key_t z) {
+bool Adapter_Bot_Player::tecla_val() {
     return false;
 }
 
-bool Adapter_Bot_Player::tecla_val(pthread_key_t a) {
-    return false;
-}
-
-void Adapter_Bot_Player::avanz_play(pthread_key_t y) {
+void Adapter_Bot_Player::avanz_play() {
 
 }
 
-int Adapter_Bot_Player::vecinos(Laberinto &y) {
+int Adapter_Bot_Player::vecinos(Laberinto &y, Player* player) {
     return 0;
 }
 
-bool Adapter_Bot_Player::col_play(Laberinto &y, pthread_key_t z) {
+bool Adapter_Bot_Player::col_play(  Player* player) {
     return false;
 }
 
-void Adapter_Bot_Player::movement(Laberinto &y, Pi coords, pthread_key_t z) {
+void Adapter_Bot_Player::movement( Player* player  ,Laberinto &y, Pi coords) {
     bot->GeneralBehaivor();
 }
 
 void Adapter_Bot_Player::paint_path(Laberinto &y) {
+
+}
+
+void Adapter_Bot_Player::DrawPlayer() {
 
 }
