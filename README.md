@@ -195,8 +195,6 @@ Distribuido bajo la licencia GNU. Ver [`LICENCE`](LICENCE) para más informació
 
 ## Diagramas
 
-![Diagrama](extra/UML.jpg)
-
 ### Grafo de un tablero cualquiera (tamaño m x n)
 <div align="center"> <img src="extra/graph.PNG" alt="Grafo del laberinto" width="1000"/> </div>
 <br>
@@ -211,6 +209,8 @@ los "1" son las casillas por donde se puede mover, y los "0" son paredes.
 <div align="center"> <img src="extra/maze.PNG" alt="Matriz del laberinto" width="1000"/> </div>
 
 ### Diagrama de clases
+
+![Diagrama](extra/UML.jpg)
 
 ## Link del video
 
