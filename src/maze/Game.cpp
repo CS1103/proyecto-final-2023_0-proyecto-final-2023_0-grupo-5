@@ -10,7 +10,7 @@ Game* initGame(){
     resetValues();
     Game* juego = new Game;
     juego->maze2 = initBoard();
-    auto Robot = Bot_Factory(*juego->maze2,DFS_BOT);
+    auto Robot = Bot_Factory(*juego->maze2,globalData);
     juego->bot = Robot.Instanciar_Bot();
     juego->maze2->show = false;
 

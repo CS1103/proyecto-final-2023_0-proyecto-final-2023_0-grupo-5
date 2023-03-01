@@ -220,18 +220,18 @@ bool Bot_BFS::StopTurn() {
     return false;
 }
 
-Bot_Factory::Bot_Factory(Maze2 MMaze,Type tipo):maze_(MMaze) {
+Bot_Factory::Bot_Factory(Maze2 MMaze,Global dif):maze_(MMaze) {
     pair<float,float> Origin;
     if(MAZE_HEIGHT%2==0 and MAZE_WIDTH%2==0)
         Origin= make_pair(0,0);
     if(MAZE_HEIGHT%2!=0  and MAZE_WIDTH%2!=0)  Origin= make_pair(1,1);
 
-    if(tipo==BFS_BOT)
+    if(dif.dificultad==BFS_BOT)
     {
         new_bot_instantiation = new Bot_BFS(Origin.first,Origin.second,maze_);
 
     }
-    if(tipo==DFS_BOT)
+    if(dif.dificultad==DFS_BOT)
     {
         new_bot_instantiation = new Bot_DFS(Origin.first,Origin.second,maze_);
     }

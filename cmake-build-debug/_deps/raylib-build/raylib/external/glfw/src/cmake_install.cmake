@@ -1,4 +1,4 @@
-# Install script for directory: D:/Semestre 2023_0_CS/PPPPPPPPP/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-src/src/external/glfw/src
+# Install script for directory: C:/Users/Jesus/Documents/Maze proyecto/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-src/src/external/glfw/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,6 +34,6 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "C:/Program Files/JetBrains/CLion 2022.2.4/bin/mingw/bin/objdump.exe")
+  set(CMAKE_OBJDUMP "C:/Program Files/JetBrains/CLion 2022.2/bin/mingw/bin/objdump.exe")
 endif()
 

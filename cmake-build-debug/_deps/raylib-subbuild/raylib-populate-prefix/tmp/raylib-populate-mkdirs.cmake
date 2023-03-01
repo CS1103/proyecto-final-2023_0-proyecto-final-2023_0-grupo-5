@@ -4,16 +4,16 @@
 cmake_minimum_required(VERSION 3.5)
 
 file(MAKE_DIRECTORY
-  "D:/Semestre 2023_0_CS/PPPPPPPPP/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-src"
-  "D:/Semestre 2023_0_CS/PPPPPPPPP/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-build"
-  "D:/Semestre 2023_0_CS/PPPPPPPPP/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix"
-  "D:/Semestre 2023_0_CS/PPPPPPPPP/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/tmp"
-  "D:/Semestre 2023_0_CS/PPPPPPPPP/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp"
-  "D:/Semestre 2023_0_CS/PPPPPPPPP/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src"
-  "D:/Semestre 2023_0_CS/PPPPPPPPP/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp"
+  "C:/Users/Jesus/Documents/Maze proyecto/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-src"
+  "C:/Users/Jesus/Documents/Maze proyecto/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-build"
+  "C:/Users/Jesus/Documents/Maze proyecto/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix"
+  "C:/Users/Jesus/Documents/Maze proyecto/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/tmp"
+  "C:/Users/Jesus/Documents/Maze proyecto/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp"
+  "C:/Users/Jesus/Documents/Maze proyecto/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src"
+  "C:/Users/Jesus/Documents/Maze proyecto/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp"
 )
 
 set(configSubDirs )
 foreach(subDir IN LISTS configSubDirs)
-    file(MAKE_DIRECTORY "D:/Semestre 2023_0_CS/PPPPPPPPP/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/${subDir}")
+    file(MAKE_DIRECTORY "C:/Users/Jesus/Documents/Maze proyecto/proyecto-final-2023_0-proyecto-final-2023_0-grupo-5/cmake-build-debug/_deps/raylib-subbuild/raylib-populate-prefix/src/raylib-populate-stamp/${subDir}")
 endforeach()

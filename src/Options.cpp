@@ -11,8 +11,9 @@ using namespace std;
 #define SONG2 "MusumeOST 1"
 #define SONG3 "MusumeOST 2"
 #define SONG4 "Bad Apple"
-#define PONG_OPTION_GAME_MODE_PVP "PvP"
-#define PONG_OPTION_GAME_MODE_CPU "PvE"
+#define OPTION_GAME_MODE_PVP "Player vs Player"
+#define OPTION_GAME_MODE_PVIA "Player vs IA"
+#define OPTION_GAME_MODE_IAVIA "IA vs IA"
 static bool finished = false;
 static const int32_t FONTSIZE = 24;
 static int32_t internalPto = 0;
@@ -106,17 +107,14 @@ void freeOptions2(Options *options) {
         freeGameMode();
         free(options);
         options = NULL;
-#ifdef PONG_DEBUG
-        TraceLog(LOG_INFO, PONG_SCENE_OPTIONS_DELETED);
-#endif
     }
 }
 
-static void resetValue(void) {
+static void resetValue() {
     finished = false;
 }
 
-static void drawTitle(void) {
+static void drawTitle() {
     const int32_t middle = GetScreenWidth() / 2;
     const int32_t posX = middle - TextLength("Options") * (FONTSIZE / 2) / 2;
 
@@ -241,34 +239,47 @@ static void updateThemeData() {
     }
 }
 static void updateMode(const Options *const options) {
+    cout << globalData.dificultad << endl;
     if (options->item == ITEM_GAME_MODE) {
-        const int32_t mode = (int32_t)globalData.mode;
-        if (IsKeyPressed(KEY_LEFT) && mode == MODE_PVP) {
-            PlaySound(globalData.rightSound);
-            globalData.mode = MODE_CPU;
-        } else if (IsKeyPressed(KEY_RIGHT) && mode == MODE_CPU) {
-            PlaySound(globalData.rightSound);
-            globalData.mode = MODE_PVP;
+        const auto minMode = (int32_t) PLAYER_VS_PLAYER;
+        const auto maxMode = (int32_t) BOT_VS_BOT;
+        const auto mode = (int32_t) globalData.mode;
+        if (IsKeyPressed(KEY_LEFT) && mode > minMode) {
+            globalData.mode = static_cast<GlMode>(globalData.mode - 1);
+        } else if (IsKeyPressed(KEY_RIGHT) && mode < maxMode) {
+            globalData.mode = static_cast<GlMode>(globalData.mode + 1);
         }
     }
 }
 
 
-static void updateModeData(void) {
+static void updateModeData() {
     if (internalMode != globalData.mode) {
         internalMode = globalData.mode;
         strcpy(modeData, "");
+        const auto minMode = (int32_t) PLAYER_VS_PLAYER;
+        const auto maxMode = (int32_t) BOT_VS_BOT;
+        if ((int32_t)internalMode > minMode) {
+            strcat(modeData, LEFT);
+        }
         switch (internalMode) {
-            case MODE_CPU:
-                strcat(modeData, PONG_OPTION_GAME_MODE_CPU);
-                strcat(modeData, RIGHT);
+            case PLAYER_VS_PLAYER:
+                strcat(modeData, OPTION_GAME_MODE_PVIA);
+                globalData.dificultad = BFS_BOT;
                 break;
-            case MODE_PVP:
-                strcat(modeData, LEFT);
-                strcat(modeData, PONG_OPTION_GAME_MODE_PVP);
+            case PLAYER_VS_BOT:
+                strcat(modeData, OPTION_GAME_MODE_PVP);
+                globalData.dificultad = DFS_BOT;
                 break;
+            case BOT_VS_BOT:
+                strcat(modeData, OPTION_GAME_MODE_IAVIA);
+                break;
+        }
+        if ((int32_t)internalMode < maxMode) {
+            strcat(modeData, RIGHT);
         }
     }
 }
+
 
 

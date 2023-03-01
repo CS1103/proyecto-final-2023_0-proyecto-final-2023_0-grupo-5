@@ -1,8 +1,9 @@
 #include "global.h"
 
 void initGlobal(Global *const globalData) {
+    globalData->dificultad = BFS_BOT;
     globalData->theme = MUSIC_1;
-    globalData->mode = MODE_CPU;
+    globalData->mode = PLAYER_VS_PLAYER;
     globalData->ptos = 5;
     globalData->fullScreen = false;
     globalData->leftSound = LoadSound("../assets/sound/left.wav");

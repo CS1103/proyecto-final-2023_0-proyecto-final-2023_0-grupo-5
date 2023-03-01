@@ -22,9 +22,15 @@ const static int32_t GL_MAX_PTO = 10;
 
 
 typedef enum GlMode {
-    MODE_CPU = 0,
-    MODE_PVP
+    PLAYER_VS_PLAYER = 0,
+    PLAYER_VS_BOT,
+    BOT_VS_BOT
 } GlMode;
+
+typedef enum dificult{
+    BFS_BOT = 0,
+    DFS_BOT
+}dificult;
 
 typedef enum GLMusic {
     MUSIC_1 = 0,
@@ -58,6 +64,7 @@ typedef struct Colors {
 } Colors;
 
 typedef struct Global {
+    dificult dificultad;
     GlMode mode;
     GLMusic theme;
     Colors colors;

@@ -22,7 +22,7 @@ Player* zeta = new Player(1,1,GREEN);
 Player* Beta = new Player(MAZE_HEIGHT-1,MAZE_WIDTH-1,PURPLE);
 
 GeneralPurpuseBot* crear_Bot(Maze2 *const maze){
-    auto Robot = Bot_Factory(*maze,BFS_BOT);
+    auto Robot = Bot_Factory(*maze,globalData);
     auto UseRobot= Robot.Instanciar_Bot();
     return UseRobot;
 }

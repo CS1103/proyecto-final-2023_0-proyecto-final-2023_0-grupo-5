@@ -10,6 +10,7 @@
 #include <vector>
 #include <raylib.h>
 #include "../global.h"
+extern Global globalData;
 
 //using Pi = std::pair<int,int>;
 using I = int;

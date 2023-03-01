@@ -96,10 +96,9 @@ public:
     void BoT_move() override;
     bool StopTurn() override;
 };
-enum Type{ BFS_BOT,DFS_BOT};
 class Bot_Factory{
 public:
-    Bot_Factory(Maze2 Mmaze ,Type tipo);
+    Bot_Factory(Maze2 Mmaze ,Global dif);
     GeneralPurpuseBot* Instanciar_Bot();
 
 
