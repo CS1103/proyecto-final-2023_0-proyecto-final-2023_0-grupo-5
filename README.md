@@ -195,6 +195,8 @@ Distribuido bajo la licencia GNU. Ver [`LICENCE`](LICENCE) para más informació
 
 ## Diagramas
 
+![Diagrama](extra/UML.jpg)
+
 ### Grafo de un tablero cualquiera (tamaño m x n)
 <div align="center"> <img src="extra/graph.PNG" alt="Grafo del laberinto" width="1000"/> </div>
 <br>
@@ -214,12 +216,12 @@ los "1" son las casillas por donde se puede mover, y los "0" son paredes.
 
 ## Autores
 
-- Nombre genérico 1
+- Benjamin Soto Mayta
+- Fabricio Chavez Balarezo
+- Fabrizzio Vilchez Espinoza
 - Jesus Egusquiza Ore
 - Sebastian Rodriguez Herrera
-- Fabricio Chavez Balarezo
-- Benjamin Soto Mayta
-- Fabrizzio Vilchez Espinoza
+- Rodrigo León Chumpitaz
 
 ## Referencias
 
