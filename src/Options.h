@@ -17,16 +17,12 @@ typedef enum OptionItems {
 class Options {
 public:
     OptionItems item;
+    void updateOPTIONS();
+    void DrawOPTIONS();
 };
 
 Options *initOptions(void);
-
-void updateOptions(Options *const options);
-
-void drawOptions(const Options *const options);
-
-void freeOptions(Options **options);
-
+void freeOptions2(Options *options);
 bool finishOptions(void);
 
 

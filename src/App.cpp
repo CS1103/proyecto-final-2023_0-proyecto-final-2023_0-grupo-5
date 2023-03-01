@@ -10,15 +10,13 @@ static bool showFPS = false;
 
 static void settingApp(void);
 static void updateFullScreen(void);
-static void updateApp(App *const app);
-static void drawApp(const App *const app);
+
 static void freeInternalApp(App *app);
-static void drawFPS(void);
 
 Global globalData;
 
 // FUNCIONES PUBLICAS
-App *initApp(void) {
+App *initApp() {
     finished = false;
     App* app = new App;
     if (app == NULL) {
@@ -34,14 +32,19 @@ App *initApp(void) {
 }
 
 void runApp(App *const app) {
-    std::cout << globalData.widht_window;
-    std::cout << globalData.height_window;
-
     PlayMusicStream(globalData.music[globalData.theme]);
+    bool pause = false;
+
     while (!WindowShouldClose() && !finished) {
-        //UpdateMusicStream(globalData.music[globalData.theme]);
-        updateApp(app);
-        drawApp(app);
+        UpdateMusicStream(globalData.music[globalData.theme]);
+        if (IsKeyPressed(KEY_P))
+        {
+            pause = !pause;
+            if (pause) PauseMusicStream(globalData.music[globalData.theme]);
+            else ResumeMusicStream(globalData.music[globalData.theme]);
+        }
+        app->updateApp();
+        app->drawApp();
     }
     std::cout << "cerrado app" << std::endl;
 }
@@ -59,8 +62,9 @@ void freeApp(App **app) {
 }
 
 
+
 static void settingApp() {
-    InitWindow(globalData.map_widht, globalData.map_height , "MAZE");
+    InitWindow(globalData.screen_width, globalData.screen_height , "MARISA MAZE");
     HideCursor();
     Image iconKAWAI = LoadImage("../textures/icon_windowscompress.png");
     SetWindowIcon(iconKAWAI);
@@ -68,22 +72,21 @@ static void settingApp() {
     SetTargetFPS(500);
 }
 
-static void updateApp(App *const app) {
-    //updateFullScreen();
-    updateSceneHandler(app->sceneHandler);
+
+void App::updateApp() {
+    getScene()->updateScene();
     finished = finishSceneHanlder();
 }
 
-static void drawApp(const App *const app) {
+void App::drawApp() {
     BeginDrawing();
     ClearBackground(BLACK);
-    drawSceneHandler(app->sceneHandler);
-    //drawFPS();
+    sceneHandler->drawSceneHandler();
     EndDrawing();
 }
 
 static void freeInternalApp(App *const app) {
-    freeScenehandler(&app->sceneHandler);
+    freeScenehandler(app->sceneHandler);
     CloseAudioDevice();
     CloseWindow();
 }
@@ -93,13 +96,6 @@ static void updateFullScreen(void) {
         ToggleFullscreen();
     } else if (!globalData.fullScreen && IsWindowFullscreen()) {
         ToggleFullscreen();
-    }
-}
-
-static void drawFPS(void) {
-    if (showFPS) {
-        const char *strFPS = TextFormat("FPS: %d", GetFPS());
-        RLAPI::DrawText(strFPS, 10, 10, 24, GREEN);
     }
 }
 

@@ -1,15 +1,15 @@
 #include "global.h"
 
 void initGlobal(Global *const globalData) {
+    globalData->dificultad = BFS_BOT;
     globalData->theme = MUSIC_1;
-    globalData->mode = MODE_CPU;
+    globalData->mode = PLAYER_VS_PLAYER;
     globalData->ptos = 5;
     globalData->fullScreen = false;
     globalData->leftSound = LoadSound("../assets/sound/left.wav");
     globalData->rightSound = LoadSound("../assets/sound/right.wav");
     globalData->resetMusic();
-    globalData->map_height = MAP_HEIGHT;
-    globalData->map_widht=MAP_WIDTH;
+
     SetSoundVolume(globalData->leftSound, 1.0);
     SetSoundVolume(globalData->rightSound, 1.0);
 }

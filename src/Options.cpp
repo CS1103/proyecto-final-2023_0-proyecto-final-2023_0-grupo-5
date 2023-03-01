@@ -11,8 +11,9 @@ using namespace std;
 #define SONG2 "MusumeOST 1"
 #define SONG3 "MusumeOST 2"
 #define SONG4 "Bad Apple"
-#define PONG_OPTION_GAME_MODE_PVP "PvP"
-#define PONG_OPTION_GAME_MODE_CPU "PvE"
+#define OPTION_GAME_MODE_PVP "Player vs Player"
+#define OPTION_GAME_MODE_PVIA "Player vs IA"
+#define OPTION_GAME_MODE_IAVIA "IA vs IA"
 static bool finished = false;
 static const int32_t FONTSIZE = 24;
 static int32_t internalPto = 0;
@@ -71,49 +72,49 @@ Options *initOptions(void) {
     return options;
 }
 
-void updateOptions(Options *const options) {
-    updateItemSelected(options);
+
+void Options::updateOPTIONS() {
+    updateItemSelected(this);
     //changeValueItem(options);
-    updateTheme(options);
+    updateTheme(this);
     updateThemeData();
-    updateMode(options);
+    updateMode(this);
     updateModeData();
     //updateFullScreen(options);
     closeOptions();
 }
+
+
 bool finishOptions(void) {
     return finished;
 }
-void drawOptions(const Options *const options) {
+void Options::DrawOPTIONS() {
     int32_t posY = 100;
     drawTitle();
     //drawOptionPtos(options, posY);
     posY += FONTSIZE + 10;
-    drawOptionTheme(options, posY);
+    drawOptionTheme(this, posY);
     posY += FONTSIZE + 10;
-    drawOptionGameMode(options, posY);
+    drawOptionGameMode(this, posY);
     posY += FONTSIZE + 10;
     //drawOptionFullScreen(options, posY);
 }
 
-void freeOptions(Options **options) {
-    if (*options != NULL) {
+void freeOptions2(Options *options) {
+    if (options != NULL) {
         //freePtos();
         freeMusic();
         freeGameMode();
-        free(*options);
-        *options = NULL;
-#ifdef PONG_DEBUG
-        TraceLog(LOG_INFO, PONG_SCENE_OPTIONS_DELETED);
-#endif
+        free(options);
+        options = NULL;
     }
 }
 
-static void resetValue(void) {
+static void resetValue() {
     finished = false;
 }
 
-static void drawTitle(void) {
+static void drawTitle() {
     const int32_t middle = GetScreenWidth() / 2;
     const int32_t posX = middle - TextLength("Options") * (FONTSIZE / 2) / 2;
 
@@ -219,20 +220,14 @@ static void updateThemeData() {
         switch (internalTheme) {
             case MUSIC_1:
                 strcat(musicData, SONG1);
-                cout << &GetCurrentMonitor;
-                //SetWindowSize(480,360);
                 break;
             case MUSIC_2:
                 strcat(musicData, SONG2);
-                //SetWindowSize(1200,720);
                 break;
             case MUSIC_3:
-                //SetWindowSize(1000,500);
                 strcat(musicData, SONG3);
                 break;
             case MUSIC_4:
-                //SetWindowSize(800,600);
-
                 strcat(musicData, SONG4);
                 break;
         }
@@ -244,31 +239,45 @@ static void updateThemeData() {
 }
 static void updateMode(const Options *const options) {
     if (options->item == ITEM_GAME_MODE) {
-        const int32_t mode = (int32_t)globalData.mode;
-        if (IsKeyPressed(KEY_LEFT) && mode == MODE_PVP) {
-            PlaySound(globalData.rightSound);
-            globalData.mode = MODE_CPU;
-        } else if (IsKeyPressed(KEY_RIGHT) && mode == MODE_CPU) {
-            PlaySound(globalData.rightSound);
-            globalData.mode = MODE_PVP;
+        const auto minMode = (int32_t) PLAYER_VS_PLAYER;
+        const auto maxMode = (int32_t) BOT_VS_BOT;
+        const auto mode = (int32_t) globalData.mode;
+        if (IsKeyPressed(KEY_LEFT) && mode > minMode) {
+            globalData.mode = static_cast<GlMode>(globalData.mode - 1);
+        } else if (IsKeyPressed(KEY_RIGHT) && mode < maxMode) {
+            globalData.mode = static_cast<GlMode>(globalData.mode + 1);
         }
     }
 }
 
 
-static void updateModeData(void) {
+static void updateModeData() {
     if (internalMode != globalData.mode) {
         internalMode = globalData.mode;
         strcpy(modeData, "");
+        const auto minMode = (int32_t) PLAYER_VS_PLAYER;
+        const auto maxMode = (int32_t) BOT_VS_BOT;
+        if ((int32_t)internalMode > minMode) {
+            strcat(modeData, LEFT);
+        }
         switch (internalMode) {
-            case MODE_CPU:
-                strcat(modeData, PONG_OPTION_GAME_MODE_CPU);
-                strcat(modeData, RIGHT);
+            case PLAYER_VS_PLAYER:
+                strcat(modeData, OPTION_GAME_MODE_PVP);
+                globalData.dificultad = BFS_BOT;
                 break;
-            case MODE_PVP:
-                strcat(modeData, LEFT);
-                strcat(modeData, PONG_OPTION_GAME_MODE_PVP);
+            case PLAYER_VS_BOT:
+                strcat(modeData, OPTION_GAME_MODE_PVIA);
+                globalData.dificultad = DFS_BOT;
                 break;
+            case BOT_VS_BOT:
+                strcat(modeData, OPTION_GAME_MODE_IAVIA);
+                break;
+        }
+        if ((int32_t)internalMode < maxMode) {
+            strcat(modeData, RIGHT);
         }
     }
 }
+
+
+

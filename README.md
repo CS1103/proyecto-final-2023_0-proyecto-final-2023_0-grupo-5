@@ -210,18 +210,16 @@ los "1" son las casillas por donde se puede mover, y los "0" son paredes.
 
 ### Diagrama de clases
 
-![Diagrama](extra/UML.jpg)
-
 ## Link del video
 
 ## Autores
 
-- Benjamin Soto Mayta
-- Fabricio Chavez Balarezo
-- Fabrizzio Vilchez Espinoza
+- Nombre genérico 1
 - Jesus Egusquiza Ore
 - Sebastian Rodriguez Herrera
-- Rodrigo León Chumpitaz
+- Fabricio Chavez Balarezo
+- Benjamin Soto Mayta
+- Fabrizzio Vilchez Espinoza
 
 ## Referencias
 

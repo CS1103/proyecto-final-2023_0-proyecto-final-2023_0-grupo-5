@@ -40,7 +40,7 @@ endif()
 
 # Our Project
 
-add_executable(${PROJECT_NAME} main.cpp src/menu.cpp src/menu.h src/global.cpp src/global.h src/menu2.cpp src/menu2.h src/scenes.cpp src/scenes.h src/Maze.cpp src/Maze.h src/Options.cpp src/Options.h src/App.cpp src/App.h src/maze/maze2.cpp src/maze/maze2.h src/maze/Player.cpp src/maze/Player.h src/maze/Bot.cpp src/maze/Bot.h src/maze/Player2.cpp src/maze/Player2.h)
+add_executable(${PROJECT_NAME} main.cpp src/global.cpp src/global.h src/menu2.cpp src/menu2.h src/scenes.cpp src/scenes.h src/Options.cpp src/Options.h src/App.cpp src/App.h src/maze/maze2.cpp src/maze/maze2.h src/maze/Player.cpp src/maze/Player.h src/maze/Bot.cpp src/maze/Bot.h src/maze/Player2.cpp src/maze/Player2.h src/maze/Game.cpp src/maze/Game.h)
 #set(raylib_VERBOSE 1)
 target_link_libraries(${PROJECT_NAME} raylib)
 

@@ -6,7 +6,3 @@
 
 
 
-Player* initPlayer(void){
-    auto* player = new Player;
-
-}

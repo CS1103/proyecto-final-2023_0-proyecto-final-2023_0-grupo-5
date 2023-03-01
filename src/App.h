@@ -7,16 +7,22 @@
 
 #include "scenes.h"
 #include "vector"
+
+
+
 class App {
 public:
     SceneHandler *sceneHandler;
+    void updateApp();
+    void drawApp();
+    [[nodiscard]] SceneHandler* getScene() const{
+        return sceneHandler;
+    }
 };
 
-App *initApp(void);
+App *initApp();
 
 void runApp(App *const app);
-
-
 void freeApp(App **app);
 
 #endif //EXAMPLES_APP_H
