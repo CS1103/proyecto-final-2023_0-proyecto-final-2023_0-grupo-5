@@ -39,6 +39,7 @@ private:
     size_t SearchNumber=0;//needed in DFS(to be included) and BFS
     Maze2 maze;
     std::set<Pi> Visited;
+    std::set<Pi> Visited_algot;
 public:
 
     Bot_BFS(float x , float y, Maze2& Mmaze):x_(x),y_(y),maze(Mmaze){
@@ -75,11 +76,12 @@ private:
     size_t SearchNumber=0;//needed in DFS(to be included) and BFS
     Maze2 maze;
     std::set<Pi> Visited;
+    std::set<Pi> Visited_algot;
 public:
 
     Bot_DFS(float x , float y, Maze2 Mmaze):x_(x),y_(y),maze(Mmaze){
         Visited_coords.push({x, y});
-
+        Visited_algot.insert({x,y});
         Frontier.push({x,y});//set irst possition as visited
         Target={MAZE_HEIGHT/2,MAZE_WIDTH/2};
         Path[{x,y}]={x,y};//Mark first position as its own root
@@ -99,7 +101,7 @@ public:
 enum Type{ BFS_BOT,DFS_BOT};
 class Bot_Factory{
 public:
-    Bot_Factory(Maze2 Mmaze ,Type tipo);
+    Bot_Factory(Maze2 Mmaze ,Type tipo, int x , int y);
     GeneralPurpuseBot* Instanciar_Bot();
 
 

@@ -6,12 +6,12 @@
 #define EXAMPLES_GAME_H
 #include "maze2.h"
 #include "Bot.h"
-
+using namespace std;
 class Game {
 
 public:
     Maze2* maze2;
-    GeneralPurpuseBot* bot;
+    vector<GeneralPurpuseBot*> Instancias_bots;
     void updateGAMES();
     void DRAWGAME();
 };

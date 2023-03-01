@@ -21,13 +21,11 @@ static void resetValues(void);
 Player* zeta = new Player(1,1,GREEN);
 Player* Beta = new Player(MAZE_HEIGHT-1,MAZE_WIDTH-1,PURPLE);
 
-GeneralPurpuseBot* crear_Bot(Maze2 *const maze){
-    auto Robot = Bot_Factory(*maze,BFS_BOT);
+/*GeneralPurpuseBot* crear_Bot(Maze2 *const maze){
+    auto Robot = Bot_Factory(*maze,BFS_BOT, 0 ,0);
     auto UseRobot= Robot.Instanciar_Bot();
     return UseRobot;
-}
-
-
+}*/
 Maze2* initBoard() {
     cout << "INICIALIZO MAZE" << endl;
     std::cout << "gola";
@@ -43,8 +41,6 @@ Maze2* initBoard() {
     cout << endl;
     return maze;
 }
-
-
 static void resetValues(void) {
     showCounter = true;
     counter = MAX_COUNTER;
@@ -53,11 +49,9 @@ static void resetValues(void) {
 I &Maze2::operator()(int i_row, int i_col) {
     return tam[MAZE_WIDTH*i_row+(MAZE_WIDTH-(MAZE_WIDTH-i_col))];
 }
-
 I Maze2::operator()(int i_row, int i_col) const {
     return tam[MAZE_WIDTH*i_row+(MAZE_WIDTH-(MAZE_WIDTH-i_col))];
 }
-
 void drawMaze2(Maze2 *const maze) {
     if (showCounter){
         UpdateCounter();
@@ -86,6 +80,14 @@ void drawMaze2(Maze2 *const maze) {
                 if((*maze)(i,j)==3)
                 {
                     DrawRectangle(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE, PURPLE);
+                }
+                if((*maze)(i,j)==4)
+                {
+                    DrawRectangle(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE, YELLOW);
+                }
+                if((*maze)(i,j)==5)
+                {
+                    DrawRectangle(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE, GREEN);
                 }
             }
         }
@@ -207,3 +209,6 @@ Maze2* Maze2::getInstance(int H,int W){
     return _inst;
 
 }
+
+
+

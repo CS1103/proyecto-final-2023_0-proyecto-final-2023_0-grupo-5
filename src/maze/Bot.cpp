@@ -16,10 +16,11 @@ void Bot_DFS::DFS(Maze2 &Maze) {
         for (auto Adder: Cardinals){
             Pi Next = {Visited_coords.top().first + Adder.first, Visited_coords.top().second + Adder.second};
             if (Maze(Next.first, Next.second) != 0 and
-                Maze(Next.first, Next.second) != 2 and (Next.first>=0 and Next.first<MAZE_HEIGHT) and ((Next.second>=0 and Next.second<MAZE_WIDTH))){
-                Maze(Next.first,Next.second) = 2;
+               Visited_algot.find(Next)==Visited_algot.end() and (Next.first>=0 and Next.first<MAZE_HEIGHT) and (Next.second>=0 and Next.second<MAZE_WIDTH)){
+                Maze(Next.first,Next.second) = 5;
                 Path[Next]=Visited_coords.top();
                 Visited_coords.push(Next);
+                Visited_algot.insert(Visited_coords.top());
 
                 break;
             }tem++;
@@ -28,6 +29,8 @@ void Bot_DFS::DFS(Maze2 &Maze) {
     }else{
 
         PathAvaliable= true;
+
+
     }
 }
 void Bot_DFS::draw() {
@@ -59,9 +62,9 @@ void Bot_DFS::GeneratePath(Pi coord) {
 }
 void Bot_DFS::Botmove(Maze2 &Maze) {
     bool  stop_condition= true;
-    if(IsKeyPressed(KEY_F))
+    if(IsKeyPressed(KEY_B))
     {   Visited.insert(Movement.top());
-        Maze(Movement.top().first, Movement.top().second) = 3;
+        Maze(Movement.top().first, Movement.top().second) = 4;
         Movement.pop();
         stop_condition= true;
     }
@@ -89,7 +92,7 @@ void Bot_DFS::Botmove(Maze2 &Maze) {
             }
         }
         if(stop_condition)
-        {Maze(Movement.top().first, Movement.top().second) = 3;
+        {Maze(Movement.top().first, Movement.top().second) = 4;
             Movement.pop();}
     }
 }
@@ -118,7 +121,7 @@ void Bot_BFS::BFS(Maze2& Maze) {
     vector<Pi> Cardinals{{0, 1},{0, -1}, { -1, 0 },{ 1, 0 }}; // East , West , North and South
     if(Visited_coords.top() != Target and Frontier.front()!=Target) {
         Pi cur_coord = Frontier.front();//Current Coordinates
-        Maze(cur_coord.first,cur_coord.second)=2;
+        Visited_algot.insert(cur_coord);
         Frontier.pop();// Eliminate the first element on qeue that is a visited neighbor
         //cout<<endl;
         for (auto Adder: Cardinals) {
@@ -126,7 +129,7 @@ void Bot_BFS::BFS(Maze2& Maze) {
             Pi Next = {cur_coord.first + Adder.first,
                        cur_coord.second + Adder.second}; // Establish next possible coordinate
             if (Maze(Next.first, Next.second) != 0 and
-                Maze(Next.first, Next.second) != 2 and (Next.first>=0 and Next.first<MAZE_HEIGHT-1) and ((Next.second>=0 and Next.second<MAZE_WIDTH-1)))//Check if next is an avaliable neighbor
+                    (Visited_algot.find(Next)==Visited_algot.end()) and (Next.first>=0 and Next.first<MAZE_HEIGHT-1) and ((Next.second>=0 and Next.second<MAZE_WIDTH-1)))//Check if next is an avaliable neighbor
             {
 
                 Frontier.push(Next);// Add the new neighbor
@@ -220,7 +223,7 @@ bool Bot_BFS::StopTurn() {
     return false;
 }
 
-Bot_Factory::Bot_Factory(Maze2 MMaze,Type tipo):maze_(MMaze) {
+Bot_Factory::Bot_Factory(Maze2 MMaze,Type tipo , int x=0 , int y=0 ):maze_(MMaze) {
     pair<float,float> Origin;
     if(MAZE_HEIGHT%2==0 and MAZE_WIDTH%2==0)
         Origin= make_pair(0,0);
@@ -228,12 +231,12 @@ Bot_Factory::Bot_Factory(Maze2 MMaze,Type tipo):maze_(MMaze) {
 
     if(tipo==BFS_BOT)
     {
-        new_bot_instantiation = new Bot_BFS(Origin.first,Origin.second,maze_);
+        new_bot_instantiation = new Bot_BFS(x,y,maze_);
 
     }
     if(tipo==DFS_BOT)
     {
-        new_bot_instantiation = new Bot_DFS(Origin.first,Origin.second,maze_);
+        new_bot_instantiation = new Bot_DFS(x,y,maze_);
     }
 }
 

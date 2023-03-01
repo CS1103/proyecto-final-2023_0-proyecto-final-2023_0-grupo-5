@@ -10,8 +10,14 @@ Game* initGame(){
     resetValues();
     Game* juego = new Game;
     juego->maze2 = initBoard();
-    auto Robot = Bot_Factory(*juego->maze2,DFS_BOT);
-    juego->bot = Robot.Instanciar_Bot();
+    vector<Bot_Factory> Robots;
+
+        Robots.emplace_back(*juego->maze2,BFS_BOT, 0 ,0 );
+    Robots.emplace_back(*juego->maze2,DFS_BOT, MAZE_HEIGHT-2 ,MAZE_WIDTH-2 );
+
+    for (auto &r:Robots) {
+        juego->Instancias_bots.emplace_back(r.Instanciar_Bot());
+    }
     juego->maze2->show = false;
 
     return juego;
@@ -20,8 +26,10 @@ Game* initGame(){
 void Game::DRAWGAME() {
     drawMaze2(maze2);
     if (maze2->show){
-        bot->GeneralBehaivor();
-        bot->BoT_move();
+        for (auto bot:Instancias_bots) {
+            bot->GeneralBehaivor();
+            bot->BoT_move();
+        }
     }
 }
 
@@ -43,7 +51,7 @@ bool finishGAME(void) {
 
 void freeGame2(Game *game){
     if (game != NULL) {
-        free(game->bot);
+        //free(game->bot);
         free(game);
     }
 }

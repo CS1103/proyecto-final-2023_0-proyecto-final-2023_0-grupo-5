@@ -26,6 +26,9 @@ public:
     static Maze2* getInstance(int H,int W);
     std::stack<std::pair<I,I> >  Visited_Coordinates;
 
+
+
+
     std::pair<int,int> target = {MAZE_HEIGHT/2,MAZE_WIDTH/2};
     I &operator()(int i_row, int i_col) ;
     I operator()(int i_row, int i_col) const;
